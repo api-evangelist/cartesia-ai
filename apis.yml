@@ -1,0 +1,272 @@
+aid: cartesia-ai
+url: https://raw.githubusercontent.com/api-evangelist/cartesia-ai/refs/heads/main/apis.yml
+name: Cartesia
+kind: company
+description: Cartesia builds real-time voice AI - the Sonic family of text-to-speech
+  models, Ink speech-to-text models, and a Voice Agents platform for building and
+  deploying telephone and web voice agents. The core generation surface is exposed
+  both as REST (bytes and Server-Sent Events) and as a low-latency, bidirectional
+  WebSocket protocol at wss://api.cartesia.ai for streaming TTS and STT with
+  multiplexed contexts, word/phoneme timestamps, and mid-stream flush and cancel.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- AI
+- Voice AI
+- Text to Speech
+- Speech to Text
+- Realtime
+- WebSocket
+- Voice Cloning
+- Voice Agents
+created: '2026-07-02'
+modified: '2026-07-02'
+specificationVersion: '0.19'
+apis:
+- aid: cartesia-ai:cartesia-ai-text-to-speech-api
+  name: Cartesia Text-to-Speech API
+  tags:
+  - Text to Speech
+  - Sonic
+  - Audio
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+    type: Documentation
+  - url: https://docs.cartesia.ai/api-reference/tts/bytes
+    type: APIReference
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: Synthesize speech from text with the Sonic model family (sonic-3.5,
+    sonic-3, sonic-latest) over plain HTTP - a single-shot binary response at
+    POST /tts/bytes or a Server-Sent Events stream with per-chunk metadata at
+    POST /tts/sse. Supports 40+ languages, raw/wav/mp3 output formats, and
+    generation controls for volume, speed, and emotion.
+- aid: cartesia-ai:cartesia-ai-tts-websocket-api
+  name: Cartesia TTS WebSocket API
+  tags:
+  - WebSocket
+  - Text to Speech
+  - Realtime
+  - Streaming
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/tts/websocket
+  baseURL: wss://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/tts/websocket
+    type: Documentation
+  - url: asyncapi/cartesia-ai-asyncapi.yml
+    type: AsyncAPI
+  description: Bidirectional, multiplexed WebSocket at wss://api.cartesia.ai/tts/websocket
+    for realtime speech generation. Clients send JSON generation requests keyed
+    by a context_id (continuing a context preserves prosody across chunks of
+    transcript) and receive base64-encoded audio chunks, optional word and
+    phoneme timestamps, flush acknowledgements, and a final done message. A
+    single connection scales to dozens of concurrent generation contexts.
+- aid: cartesia-ai:cartesia-ai-speech-to-text-api
+  name: Cartesia Speech-to-Text API
+  tags:
+  - Speech to Text
+  - Transcription
+  - Ink Whisper
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/stt/transcribe
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+    type: Documentation
+  - url: https://docs.cartesia.ai/api-reference/stt/transcribe
+    type: APIReference
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: Batch transcription of an audio file of any length with the
+    ink-whisper model at POST /stt. Accepts flac, m4a, mp3, mp4, and mpeg
+    uploads, 99+ languages, and optional word-level timestamp granularity.
+- aid: cartesia-ai:cartesia-ai-stt-websocket-api
+  name: Cartesia STT WebSocket API
+  tags:
+  - WebSocket
+  - Speech to Text
+  - Realtime
+  - Turn Detection
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/stt/websocket
+  baseURL: wss://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/stt/turns/websocket
+    type: Documentation
+  - url: https://docs.cartesia.ai/api-reference/stt/websocket
+    type: APIReference
+  - url: asyncapi/cartesia-ai-asyncapi.yml
+    type: AsyncAPI
+  description: Realtime transcription over WebSocket at wss://api.cartesia.ai/stt/websocket.
+    Clients stream raw binary audio in 100ms chunks and issue finalize/close
+    text commands; the server returns incremental and final transcript
+    messages with word-level timing. A companion "Auto" variant at
+    /stt/turns/websocket adds built-in turn detection for conversational
+    agents.
+- aid: cartesia-ai:cartesia-ai-voices-api
+  name: Cartesia Voices API
+  tags:
+  - Voices
+  - Voice Cloning
+  - Localization
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/voices/list
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/voices/list
+    type: APIReference
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: Manage the voice catalog - list, search, and filter voices by
+    gender, language, and ownership; get, update, and delete a voice; clone a
+    new voice from an uploaded audio clip at POST /voices/clone; and localize
+    an existing voice into a new language and dialect at POST /voices/localize.
+- aid: cartesia-ai:cartesia-ai-voice-changer-api
+  name: Cartesia Voice Changer API
+  tags:
+  - Voice Changer
+  - Audio
+  - Speech to Speech
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+    type: APIReference
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: Transform an input speech recording into a different target
+    voice - a single-shot binary response at POST /voice-changer/bytes or a
+    Server-Sent Events stream at POST /voice-changer/sse.
+- aid: cartesia-ai:cartesia-ai-infill-api
+  name: Cartesia Infill API
+  tags:
+  - Infill
+  - Audio Editing
+  - Sonic
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/infill/bytes
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/infill/bytes
+    type: APIReference
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: Generate audio that smoothly connects two existing audio
+    segments at POST /infill/bytes - supply a left and/or right audio clip
+    plus the transcript to be spoken between them, useful for fixing or
+    extending existing voice recordings without a full re-record.
+- aid: cartesia-ai:cartesia-ai-datasets-api
+  name: Cartesia Datasets API
+  tags:
+  - Datasets
+  - Fine-Tuning
+  - Files
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/datasets/list
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/datasets/list
+    type: APIReference
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: Create, list, get, update, and delete datasets, and upload,
+    list, and delete files within a dataset - the audio/text collections used
+    to build custom fine-tunes and voices.
+- aid: cartesia-ai:cartesia-ai-pronunciation-dictionaries-api
+  name: Cartesia Pronunciation Dictionaries API
+  tags:
+  - Pronunciation
+  - Dictionaries
+  - Text to Speech
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+    type: APIReference
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: Create, list, get, update, and delete custom pronunciation
+    dictionaries that can be referenced by pronunciation_dict_id on TTS
+    requests to override how specific words or terms are spoken.
+- aid: cartesia-ai:cartesia-ai-api-keys-auth-api
+  name: Cartesia API Keys and Auth API
+  tags:
+  - API Keys
+  - Authentication
+  - Access Tokens
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/api-keys/list
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/api-keys/list
+    type: APIReference
+  - url: https://docs.cartesia.ai/api-reference/auth/access-token
+    type: Documentation
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: List and get metadata for standard API keys, and mint
+    short-lived (up to 3600s) scoped access tokens at POST /access-token with
+    tts/stt/agent grants for safe use in browser and client-side contexts.
+- aid: cartesia-ai:cartesia-ai-voice-agents-api
+  name: Cartesia Voice Agents API
+  tags:
+  - Voice Agents
+  - Telephony
+  - Calls
+  - Knowledge Base
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/agents/agents/list
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/agents/agents/list
+    type: APIReference
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: Build and operate voice agents end to end - manage agents and
+    public templates; place, list, cancel, and batch outbound calls and
+    download call audio and logs; import, provision, and manage telephony
+    phone numbers and provider accounts; register webhooks; inspect
+    deployments; and maintain a knowledge base of documents and folders plus
+    LLM-as-a-judge metrics used to evaluate agent quality.
+- aid: cartesia-ai:cartesia-ai-usage-api
+  name: Cartesia Usage API
+  tags:
+  - Usage
+  - Credits
+  - Billing
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.cartesia.ai/api-reference/usage/credits
+  baseURL: https://api.cartesia.ai
+  properties:
+  - url: https://docs.cartesia.ai/api-reference/usage/credits
+    type: APIReference
+  - url: https://docs.cartesia.ai/api-reference/usage/agents
+    type: APIReference
+  - url: openapi/cartesia-ai-openapi.yml
+    type: OpenAPI
+  description: Read-only usage endpoints returning credit consumption and
+    agent usage over time, bucketed by the requested interval, for
+    monitoring spend against a plan's included credits.
+common:
+- type: GitHubOrganization
+  url: https://github.com/cartesia-ai
+- type: LinkedIn
+  url: https://www.linkedin.com/company/cartesia-ai
+- type: Website
+  url: https://cartesia.ai/
+- type: Documentation
+  url: https://docs.cartesia.ai
+- type: Plans
+  url: plans/cartesia-ai-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/cartesia-ai-rate-limits.yml
+- type: FinOps
+  url: finops/cartesia-ai-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

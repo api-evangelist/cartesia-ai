@@ -1,0 +1,335 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cartesia API",
+    "version": "2026-03-01"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Text-to-Speech", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Text-to-Speech (Bytes).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/tts/bytes",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Synthesizes a complete transcript and returns raw audio bytes."
+        },
+        {
+          "info": { "name": "Text-to-Speech (SSE).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/tts/sse",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Streams audio chunks with extra metadata as Server-Sent Events."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Speech-to-Text", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Batch Speech-to-Text.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/stt",
+            "body": { "type": "multipart-form", "data": [] }
+          },
+          "docs": "Transcribes an audio file of any length."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Voices", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Voices.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/voices" },
+          "docs": "Returns a paginated list of voices."
+        },
+        {
+          "info": { "name": "Clone Voice.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/voices/clone",
+            "body": { "type": "multipart-form", "data": [] }
+          },
+          "docs": "Clones a new voice from an uploaded audio clip."
+        },
+        {
+          "info": { "name": "Get Voice.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/voices/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The ID of the voice." }
+            ]
+          },
+          "docs": "Retrieves a voice by ID."
+        },
+        {
+          "info": { "name": "Update Voice.", "type": "http" },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.cartesia.ai/voices/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The ID of the voice." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates voice metadata."
+        },
+        {
+          "info": { "name": "Delete Voice.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.cartesia.ai/voices/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The ID of the voice." }
+            ]
+          },
+          "docs": "Deletes a voice."
+        },
+        {
+          "info": { "name": "Localize Voice.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/voices/localize",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Creates a new voice from an existing voice localized to a new language and dialect."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Voice Changer", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Voice Changer (Bytes).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/voice-changer/bytes",
+            "body": { "type": "multipart-form", "data": [] }
+          },
+          "docs": "Transforms speech into a different target voice, returning raw audio bytes."
+        },
+        {
+          "info": { "name": "Voice Changer (SSE).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/voice-changer/sse",
+            "body": { "type": "multipart-form", "data": [] }
+          },
+          "docs": "Transforms speech into a different target voice, streamed as Server-Sent Events."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Infill", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Infill (Bytes).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/infill/bytes",
+            "body": { "type": "multipart-form", "data": [] }
+          },
+          "docs": "Generates audio that smoothly connects two existing audio segments."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Datasets", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Datasets.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/datasets" },
+          "docs": "Paginated list of datasets."
+        },
+        {
+          "info": { "name": "Create Dataset.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/datasets/",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Creates a new dataset."
+        },
+        {
+          "info": { "name": "Upload file to dataset.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/datasets/:id/files",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The ID of the dataset." }
+            ],
+            "body": { "type": "multipart-form", "data": [] }
+          },
+          "docs": "Uploads a new file to a dataset."
+        },
+        {
+          "info": { "name": "Delete Dataset.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.cartesia.ai/datasets/:id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The ID of the dataset." }
+            ]
+          },
+          "docs": "Deletes a dataset."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Pronunciation Dictionaries", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List pronunciation dictionaries.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/pronunciation-dictionaries" },
+          "docs": "List all pronunciation dictionaries for the authenticated user."
+        },
+        {
+          "info": { "name": "Create a pronunciation dictionary.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/pronunciation-dictionaries",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Create a new pronunciation dictionary."
+        }
+      ]
+    },
+    {
+      "info": { "name": "API Keys & Auth", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List API Keys.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/api-keys" },
+          "docs": "Returns a paginated list of standard API keys."
+        },
+        {
+          "info": { "name": "Generate a new access token.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/access-token",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Generates a short-lived access token to make API requests."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Voice Agents", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List Agents.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/agents" },
+          "docs": "Lists all agents associated with your account."
+        },
+        {
+          "info": { "name": "List Templates.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/agents/templates" },
+          "docs": "List of public, Cartesia-provided agent templates."
+        },
+        {
+          "info": { "name": "Create Outbound Call.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/calls/outbound",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Places an outbound call using a voice agent."
+        },
+        {
+          "info": { "name": "List Calls.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/calls" },
+          "docs": "Lists calls."
+        },
+        {
+          "info": { "name": "Create Call Batch.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/call-batches",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Queues a batch of outbound calls."
+        },
+        {
+          "info": { "name": "Provision Cartesia Number.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/phone-numbers/provision",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Provision a new Cartesia-managed US phone number."
+        },
+        {
+          "info": { "name": "Create Webhook.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/webhooks",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Register a webhook endpoint."
+        },
+        {
+          "info": { "name": "List Documents.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/documents" },
+          "docs": "List all knowledge base documents in your organization."
+        },
+        {
+          "info": { "name": "List Metrics.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/metrics" },
+          "docs": "List of all LLM-as-a-Judge metrics owned by your account."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Usage", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get Credit Usage.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/usage/credits?interval=day",
+            "params": [
+              { "name": "interval", "value": "day", "type": "query", "description": "Bucket size: hour, day, week, month." }
+            ]
+          },
+          "docs": "Returns your credit usage over time, bucketed by the requested interval."
+        },
+        {
+          "info": { "name": "Get Agent Usage.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/usage/agents?interval=day",
+            "params": [
+              { "name": "interval", "value": "day", "type": "query", "description": "Bucket size: hour, day, week, month." }
+            ]
+          },
+          "docs": "Returns your agent usage over time, bucketed by the requested interval."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Status", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "API Status and Version.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.cartesia.ai/api-status" },
+          "docs": "Returns current API health and version."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

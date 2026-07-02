@@ -1,0 +1,164 @@
+aid: cartesia-ai
+name: Cartesia
+review:
+  question: Does Cartesia expose a documented public WebSocket API?
+  answer: true
+  date: '2026-07-02'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    Cartesia is one of the few providers in this catalog with a real,
+    documented, bidirectional WebSocket protocol - not Server-Sent Events
+    dressed up as "streaming." An AsyncAPI 2.6 document was created at
+    asyncapi/cartesia-ai-asyncapi.yml modeling both the TTS WebSocket
+    (wss://api.cartesia.ai/tts/websocket) and the STT WebSocket
+    (wss://api.cartesia.ai/stt/websocket), including full request/response
+    message schemas taken directly from Cartesia's published documentation.
+findings:
+  summary: |
+    Cartesia publishes a documented, production WebSocket API for its two
+    core realtime audio surfaces:
+
+    - Text-to-Speech WebSocket at wss://api.cartesia.ai/tts/websocket
+      (docs.cartesia.ai/api-reference/tts/websocket): a bidirectional,
+      multiplexed connection. Clients send JSON generation requests keyed by
+      a context_id (continuing a context preserves prosody across chunks of
+      transcript) and receive base64-encoded audio "chunk" messages, optional
+      word/phoneme "timestamps" messages, "flush_done" acknowledgements, a
+      terminal "done" message, and "error" messages. A cancel message
+      (context_id + cancel:true) stops an in-flight context. A single
+      connection is documented to scale to "dozens of concurrent
+      generations."
+    - Speech-to-Text WebSocket at wss://api.cartesia.ai/stt/websocket
+      (docs.cartesia.ai/api-reference/stt/websocket): clients stream binary
+      audio frames (100ms chunks recommended) matching connection-level
+      encoding/sample_rate query parameters, and send text commands
+      (finalize, close) to control finalization. The server returns
+      "transcript" messages with an is_final flag and word-level timing,
+      plus flush_done/done/error control messages. A companion endpoint at
+      wss://api.cartesia.ai/stt/turns/websocket
+      (docs.cartesia.ai/api-reference/stt/turns/websocket) adds built-in
+      turn detection so finalize is not required.
+
+    Both endpoints authenticate via an X-API-Key header or an access_token
+    query parameter (the latter for browser clients that cannot set custom
+    WebSocket headers), plus a required cartesia_version query parameter.
+    This is a materially different, and stronger, real-time transport story
+    than the HTTP Server-Sent Events streaming most competing voice-AI and
+    LLM providers document.
+  transports:
+    - protocol: WebSocket
+      scheme: wss
+      baseURL: wss://api.cartesia.ai/tts/websocket
+      documented: true
+      note: Bidirectional, multiplexed realtime TTS generation with context_id-scoped requests/responses, timestamps, flush, and cancel.
+    - protocol: WebSocket
+      scheme: wss
+      baseURL: wss://api.cartesia.ai/stt/websocket
+      documented: true
+      note: Realtime STT with manual finalize/close commands and word-level transcript timing.
+    - protocol: WebSocket
+      scheme: wss
+      baseURL: wss://api.cartesia.ai/stt/turns/websocket
+      documented: true
+      note: Same STT protocol with built-in server-side turn detection; not separately channeled in the AsyncAPI document but noted as a variant.
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.cartesia.ai
+      documented: true
+      note: Single-shot bytes and Server-Sent Events surfaces for TTS, STT, Voice Changer, Infill, Voices, Datasets, Pronunciation Dictionaries, API Keys, Auth, Voice Agents, and Usage.
+    - protocol: SSE
+      scheme: https
+      documented: true
+      note: One-way HTTP Server-Sent Events at POST /tts/sse and POST /voice-changer/sse, delivered over the same REST base. Modeled in the OpenAPI document, not the AsyncAPI document, since it is not WebSocket.
+  endpointsConfirmedRest:
+    - POST https://api.cartesia.ai/tts/bytes
+    - POST https://api.cartesia.ai/tts/sse
+    - POST https://api.cartesia.ai/stt
+    - GET  https://api.cartesia.ai/voices
+    - POST https://api.cartesia.ai/voices/clone
+    - GET  https://api.cartesia.ai/voices/{id}
+    - PATCH https://api.cartesia.ai/voices/{id}
+    - DELETE https://api.cartesia.ai/voices/{id}
+    - POST https://api.cartesia.ai/voices/localize
+    - POST https://api.cartesia.ai/voice-changer/bytes
+    - POST https://api.cartesia.ai/voice-changer/sse
+    - POST https://api.cartesia.ai/infill/bytes
+    - GET  https://api.cartesia.ai/datasets
+    - POST https://api.cartesia.ai/datasets/
+    - GET  https://api.cartesia.ai/datasets/{id}
+    - POST https://api.cartesia.ai/datasets/{id}/files
+    - GET  https://api.cartesia.ai/api-keys
+    - GET  https://api.cartesia.ai/api-keys/{id}
+    - POST https://api.cartesia.ai/access-token
+    - GET  https://api.cartesia.ai/agents
+    - GET  https://api.cartesia.ai/agents/templates
+    - POST https://api.cartesia.ai/calls/outbound
+    - GET  https://api.cartesia.ai/calls
+    - POST https://api.cartesia.ai/call-batches
+    - POST https://api.cartesia.ai/phone-numbers/provision
+    - GET  https://api.cartesia.ai/usage/credits
+    - GET  https://api.cartesia.ai/usage/agents
+    - GET  https://api.cartesia.ai/api-status
+  endpointsConfirmedWebSocket:
+    - WSS wss://api.cartesia.ai/tts/websocket
+    - WSS wss://api.cartesia.ai/stt/websocket
+    - WSS wss://api.cartesia.ai/stt/turns/websocket
+  endpointsModeled: |
+    The full 57-path OpenAPI document (openapi/cartesia-ai-openapi.yml)
+    includes the Voice Agents platform surface (calls, call-batches, phone
+    numbers, providers, webhooks, deployments, knowledge base
+    documents/folders, and metrics) and Pronunciation Dictionaries with
+    request/response shapes reconstructed from Cartesia's published
+    api-reference pages listed in llms.txt; the request/response bodies for
+    the less-documented long-tail agent-platform endpoints (e.g. exact
+    Document/Folder/Metric fields) are modeled schematically from the
+    reference summaries rather than a fully expanded field-by-field page
+    fetch of every one of the ~90 agent-platform reference pages.
+sources:
+  - url: https://docs.cartesia.ai/api-reference/tts/websocket
+    type: APIReference
+    note: Full TTS WebSocket protocol - connection URL, auth, request/response message schemas.
+  - url: https://docs.cartesia.ai/api-reference/stt/websocket
+    type: APIReference
+    note: Full STT WebSocket protocol - connection query params, binary audio framing, finalize/close commands, transcript messages.
+  - url: https://docs.cartesia.ai/api-reference/stt/turns/websocket
+    type: Documentation
+    note: STT WebSocket variant with built-in turn detection.
+  - url: https://docs.cartesia.ai/llms.txt
+    type: Documentation
+    note: Full index of api-reference pages used to enumerate the 12 APIs.json entries and OpenAPI paths.
+  - url: https://docs.cartesia.ai/api-reference/tts/bytes.md
+    type: APIReference
+    note: TTS REST bytes request/response schema.
+  - url: https://docs.cartesia.ai/api-reference/stt/transcribe.md
+    type: APIReference
+    note: Batch STT REST request/response schema.
+  - url: https://docs.cartesia.ai/api-reference/voices/clone.md
+    type: APIReference
+    note: Voice cloning multipart request/response schema.
+  - url: https://docs.cartesia.ai/api-reference/infill/bytes.md
+    type: APIReference
+    note: Infill multipart request/response schema.
+  - url: https://docs.cartesia.ai/api-reference/voices/list.md
+    type: APIReference
+    note: Voices list pagination/filter parameters and response schema.
+  - url: https://docs.cartesia.ai/api-reference/datasets/create.md
+    type: APIReference
+    note: Dataset creation request/response schema.
+  - url: https://docs.cartesia.ai/api-reference/auth/access-token.md
+    type: APIReference
+    note: Scoped access token grants and expiry.
+  - url: https://cartesia.ai/pricing
+    type: Documentation
+    note: Plan tiers, monthly credits, prepaid agents balance, concurrency limits, per-minute agent/telephony rates.
+actions:
+  asyncapiPath: asyncapi/cartesia-ai-asyncapi.yml
+  apisYmlUpdated: true
+  reason: |
+    A real, documented, bidirectional WebSocket protocol exists for both TTS
+    and STT. Under the standing scope for this catalog, a confirmed
+    WebSocket surface is modeled in AsyncAPI; the message schemas for
+    generation requests, cancel, audio chunks, timestamps, flush, done, and
+    error are taken directly from Cartesia's published api-reference pages
+    rather than inferred.

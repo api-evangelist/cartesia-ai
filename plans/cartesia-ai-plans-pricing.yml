@@ -1,0 +1,261 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Cartesia
+providerId: cartesia-ai
+created: '2026-07-02'
+modified: '2026-07-02'
+reconciled: true
+tags:
+- AI
+- Voice AI
+- Text to Speech
+- Speech to Text
+- Plans
+description: >-
+  Cartesia sells five tiers - Free, Pro, Startup, Scale, and Enterprise -
+  each combining a monthly credit allowance (consumed by TTS/STT usage),
+  a separate prepaid Voice Agents balance, and rising per-plan concurrency
+  limits on TTS and STT connections and agent slots. Voice cloning and
+  organizations unlock on paid tiers; priority support and custom
+  concurrency arrive at Scale and Enterprise.
+notes: >-
+  Credit-to-dollar conversion and per-character/per-minute burn rates are
+  not published on the pricing page as flat numbers; verify current credit
+  costs per model/feature in the Cartesia dashboard on reconciliation.
+  Concurrency and credit figures below are as published on cartesia.ai/pricing.
+sources:
+- https://cartesia.ai/pricing
+- https://docs.cartesia.ai
+plans:
+- id: cartesia-free
+  name: Free
+  type: free
+  description: >-
+    Evaluation tier with TTS and STT access, one agent slot, and a $1/month
+    prepaid agents balance.
+  entries:
+  - label: Monthly Credits
+    name: free_credits
+    type: usage
+    metric: credits
+    limit: 20000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  - label: Prepaid Agents Balance
+    name: free_agents_balance
+    type: usage
+    metric: dollars
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $1/month
+    userMultiplied: false
+  elements:
+  - name: Text to Speech
+  - name: Speech to Text
+  - name: 2 Concurrent TTS Requests
+  - name: 8 Concurrent STT Requests
+  - name: 1 Agent Slot
+- id: cartesia-pro
+  name: Pro
+  type: flat
+  description: >-
+    Adds commercial use license and instant voice cloning, with higher
+    credit allowance and concurrency.
+  entries:
+  - label: Monthly Subscription
+    name: pro_subscription
+    type: flat
+    metric: dollars
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $5/month
+    userMultiplied: false
+  - label: Monthly Credits
+    name: pro_credits
+    type: usage
+    metric: credits
+    limit: 100000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Prepaid Agents Balance
+    name: pro_agents_balance
+    type: usage
+    metric: dollars
+    limit: 5
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $5/month
+    userMultiplied: false
+  elements:
+  - name: Commercial Use License
+  - name: Instant Voice Cloning
+  - name: 3 Concurrent TTS Requests
+  - name: 12 Concurrent STT Requests
+  - name: 3 Agent Slots
+- id: cartesia-startup
+  name: Startup
+  type: flat
+  description: >-
+    Adds pro voice cloning and organizations support, with a larger
+    monthly credit allowance.
+  entries:
+  - label: Monthly Subscription
+    name: startup_subscription
+    type: flat
+    metric: dollars
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $49/month
+    userMultiplied: false
+  - label: Monthly Credits
+    name: startup_credits
+    type: usage
+    metric: credits
+    limit: 1250000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Prepaid Agents Balance
+    name: startup_agents_balance
+    type: usage
+    metric: dollars
+    limit: 49
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $49/month
+    userMultiplied: false
+  elements:
+  - name: Pro Voice Cloning
+  - name: Organizations
+  - name: 5 Concurrent TTS Requests
+  - name: 20 Concurrent STT Requests
+  - name: 5 Agent Slots
+- id: cartesia-scale
+  name: Scale
+  type: flat
+  description: >-
+    Adds priority support and high concurrency limits for production
+    volume.
+  entries:
+  - label: Monthly Subscription
+    name: scale_subscription
+    type: flat
+    metric: dollars
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $299/month
+    userMultiplied: false
+  - label: Monthly Credits
+    name: scale_credits
+    type: usage
+    metric: credits
+    limit: 8000000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: Prepaid Agents Balance
+    name: scale_agents_balance
+    type: usage
+    metric: dollars
+    limit: 299
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $299/month
+    userMultiplied: false
+  elements:
+  - name: Priority Support
+  - name: High Concurrency Limits
+  - name: 15 Concurrent TTS Requests
+  - name: 60 Concurrent STT Requests
+  - name: 10 Agent Slots
+- id: cartesia-agent-usage
+  name: Voice Agent Usage
+  type: usage
+  description: >-
+    Per-minute rates for Voice Agents platform usage, drawn from the
+    prepaid agents balance on every plan.
+  entries:
+  - label: Voice Agent Calls
+    name: agent_call_minutes
+    type: usage
+    metric: minutes
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.06 per minute
+    userMultiplied: false
+  - label: Cartesia Telephony Numbers
+    name: telephony_minutes
+    type: usage
+    metric: minutes
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.014 per minute
+    userMultiplied: false
+  - label: Professional Voice Cloning
+    name: pro_voice_clone
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: one-time 225 credits
+    userMultiplied: false
+  elements:
+  - name: Outbound and Inbound Calls
+  - name: Cartesia-Managed Phone Numbers
+  - name: Professional Voice Cloning
+- id: cartesia-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom credit and agent-usage volume pricing, custom concurrency
+    limits, DPAs/BAAs, shared Slack support, SSO, and security
+    questionnaires. Contact Cartesia sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Custom Concurrency Limits
+  - name: DPAs / BAAs
+  - name: Shared Slack Support
+  - name: SSO
+  - name: Security Questionnaires
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

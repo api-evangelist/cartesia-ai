@@ -1,0 +1,632 @@
+asyncapi: '2.6.0'
+id: 'urn:com:cartesia:api:v1:websocket'
+info:
+  title: Cartesia Realtime WebSocket API (TTS + STT)
+  version: '2026-03-01'
+  description: |
+    AsyncAPI 2.6 description of Cartesia's **documented public WebSocket API**.
+    Unlike most providers in this catalog, Cartesia publishes a real,
+    bidirectional WebSocket protocol - not Server-Sent Events - for its two
+    core realtime audio surfaces:
+
+    - **Text-to-Speech WebSocket** at `wss://api.cartesia.ai/tts/websocket`
+      (https://docs.cartesia.ai/api-reference/tts/websocket): a multiplexed,
+      bidirectional connection where clients send generation requests keyed
+      by a `context_id` and receive base64-encoded audio chunks, word/phoneme
+      timestamps, flush acknowledgements, and completion/error messages. A
+      single connection scales to dozens of concurrent generation contexts.
+    - **Speech-to-Text WebSocket** at `wss://api.cartesia.ai/stt/websocket`
+      (https://docs.cartesia.ai/api-reference/stt/websocket): clients stream
+      raw binary audio and receive incremental and final transcript messages.
+      A companion "Auto" variant at `/stt/turns/websocket`
+      (https://docs.cartesia.ai/api-reference/stt/turns/websocket) adds
+      built-in turn detection so the server itself decides when an utterance
+      ends, instead of the client issuing manual `finalize` commands.
+
+    Both protocols authenticate with either an `X-API-Key` header or an
+    `access_token` query parameter (for browser clients that cannot set
+    custom headers), plus a `cartesia_version` query parameter.
+
+    REST equivalents (single-shot bytes and Server-Sent Events) for both TTS
+    and STT are modeled separately in the companion OpenAPI document at
+    `openapi/cartesia-ai-openapi.yml`; SSE there is one-way HTTP streaming and
+    is not part of this WebSocket document.
+  contact:
+    name: API Evangelist
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
+  license:
+    name: API documentation - Cartesia Terms of Service
+    url: https://cartesia.ai/terms-of-service
+  x-transport-notes:
+    transport: WebSocket
+    protocol: wss
+    direction: bidirectional
+    confirmed: true
+    source:
+      - https://docs.cartesia.ai/api-reference/tts/websocket
+      - https://docs.cartesia.ai/api-reference/stt/websocket
+      - https://docs.cartesia.ai/api-reference/stt/turns/websocket
+defaultContentType: application/json
+servers:
+  ttsWebsocket:
+    url: 'api.cartesia.ai/tts/websocket?cartesia_version=2026-03-01'
+    protocol: wss
+    description: |
+      Bidirectional TTS streaming connection. Authenticate with an
+      `X-API-Key` header or an `access_token` query parameter.
+    security:
+      - apiKeyHeader: []
+      - accessTokenQuery: []
+  sttWebsocket:
+    url: 'api.cartesia.ai/stt/websocket?model=ink-whisper&encoding=pcm_s16le&sample_rate=16000&cartesia_version=2026-03-01'
+    protocol: wss
+    description: |
+      Realtime, manual-finalization speech-to-text connection. Query params
+      `model`, `encoding`, `sample_rate`, and `cartesia_version` are required.
+      An "Auto" variant with built-in turn detection is available at the same
+      host under `/stt/turns/websocket`.
+    security:
+      - apiKeyHeader: []
+      - accessTokenQuery: []
+channels:
+  /tts/websocket:
+    servers:
+      - ttsWebsocket
+    description: |
+      Multiplexed realtime TTS generation. The client opens one WebSocket and
+      may run many concurrent generations, each identified by a unique
+      `context_id`. Sending additional messages with `continue: true` on the
+      same `context_id` extends that context's generation while preserving
+      prosody. A `cancel: true` message stops a context's generation early.
+    bindings:
+      ws:
+        bindingVersion: '0.1.0'
+    publish:
+      operationId: sendTtsGenerationRequest
+      summary: Send a TTS generation (or cancel) request.
+      description: |
+        JSON text message. A generation request must include `model_id`,
+        `transcript`, `voice`, `output_format`, and `context_id`. A cancel
+        request includes only `context_id` and `cancel: true`.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/TtsGenerationRequest'
+          - $ref: '#/components/messages/TtsCancelRequest'
+    subscribe:
+      operationId: receiveTtsStreamEvents
+      summary: Receive audio chunks, timestamps, and control messages for a context.
+      description: |
+        Every server message carries the `context_id` it corresponds to, so
+        clients can demultiplex responses across concurrently running
+        generations on the same connection.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/TtsAudioChunk'
+          - $ref: '#/components/messages/TtsWordTimestamps'
+          - $ref: '#/components/messages/TtsPhonemeTimestamps'
+          - $ref: '#/components/messages/TtsFlushDone'
+          - $ref: '#/components/messages/TtsDone'
+          - $ref: '#/components/messages/TtsError'
+  /stt/websocket:
+    servers:
+      - sttWebsocket
+    description: |
+      Realtime speech-to-text without automatic turn detection. The client
+      streams binary audio frames (100ms chunks recommended) and sends text
+      commands (`finalize`, `close`) to control finalization; the server
+      returns incremental and final transcript messages. The connection-level
+      query parameters `model`, `encoding`, and `sample_rate` are required and
+      cannot be changed mid-connection. The `/stt/turns/websocket` variant
+      (not separately channeled here) accepts the same audio and message
+      shapes but adds server-driven turn detection so `finalize` is optional.
+    bindings:
+      ws:
+        bindingVersion: '0.1.0'
+    publish:
+      operationId: sendSttAudioAndCommands
+      summary: Stream binary audio frames and send finalize/close commands.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SttAudioFrame'
+          - $ref: '#/components/messages/SttFinalizeCommand'
+          - $ref: '#/components/messages/SttCloseCommand'
+    subscribe:
+      operationId: receiveSttTranscripts
+      summary: Receive incremental/final transcripts and control messages.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SttTranscript'
+          - $ref: '#/components/messages/SttFlushDone'
+          - $ref: '#/components/messages/SttDone'
+          - $ref: '#/components/messages/SttError'
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: httpApiKey
+      name: X-API-Key
+      in: header
+      description: Standard Cartesia API key (sk_car_...), sent as a header when opening the WebSocket connection.
+    accessTokenQuery:
+      type: userPassword
+      description: |
+        Short-lived access token (minted via POST /access-token) passed as the
+        `access_token` query parameter, for browser clients that cannot set
+        custom headers on a WebSocket handshake.
+  messages:
+    TtsGenerationRequest:
+      name: TtsGenerationRequest
+      title: TTS generation request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TtsGenerationRequestPayload'
+      examples:
+        - name: basicGeneration
+          payload:
+            model_id: sonic-3.5
+            transcript: 'Hello, world!'
+            voice:
+              mode: id
+              id: a0e99841-438c-4a64-b679-ae501e7d6091
+            output_format:
+              container: raw
+              encoding: pcm_s16le
+              sample_rate: 16000
+            context_id: unique-context-identifier
+            language: en
+            continue: false
+            max_buffer_delay_ms: 3000
+            add_timestamps: false
+            add_phoneme_timestamps: false
+    TtsCancelRequest:
+      name: TtsCancelRequest
+      title: TTS cancel request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TtsCancelRequestPayload'
+      examples:
+        - name: cancel
+          payload:
+            context_id: context-to-cancel
+            cancel: true
+    TtsAudioChunk:
+      name: TtsAudioChunk
+      title: Streamed audio chunk
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TtsAudioChunkPayload'
+      examples:
+        - name: chunk
+          payload:
+            type: chunk
+            data: base64-encoded-audio-data
+            done: false
+            status_code: 206
+            step_time: 123
+            context_id: context-id
+    TtsWordTimestamps:
+      name: TtsWordTimestamps
+      title: Word-level timestamps
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TtsWordTimestampsPayload'
+      examples:
+        - name: timestamps
+          payload:
+            type: timestamps
+            done: false
+            status_code: 206
+            context_id: context-id
+            word_timestamps:
+              words: [Hello, world]
+              start: [0, 0.5]
+              end: [0.4, 0.9]
+    TtsPhonemeTimestamps:
+      name: TtsPhonemeTimestamps
+      title: Phoneme-level timestamps
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TtsPhonemeTimestampsPayload'
+      examples:
+        - name: phonemeTimestamps
+          payload:
+            type: phoneme_timestamps
+            done: false
+            status_code: 206
+            context_id: context-id
+            phoneme_timestamps:
+              phonemes: [h, "ə", l]
+              start: [0.093, 0.174, 0.255]
+              end: [0.174, 0.255, 0.337]
+    TtsFlushDone:
+      name: TtsFlushDone
+      title: Flush acknowledgement
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/FlushDonePayload'
+      examples:
+        - name: flushDone
+          payload:
+            type: flush_done
+            done: false
+            flush_done: true
+            flush_id: 1
+            status_code: 206
+            context_id: context-id
+    TtsDone:
+      name: TtsDone
+      title: Generation completion signal
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DonePayload'
+      examples:
+        - name: done
+          payload:
+            type: done
+            done: true
+            status_code: 206
+            context_id: context-id
+    TtsError:
+      name: TtsError
+      title: Error response
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ErrorPayload'
+      examples:
+        - name: error
+          payload:
+            type: error
+            done: true
+            title: Invalid model
+            message: The model is not valid...
+            error_code: model_not_found
+            status_code: 400
+            doc_url: https://docs.cartesia.ai/api-reference/tts/websocket
+            request_id: unique-request-id
+            context_id: context-id
+    SttAudioFrame:
+      name: SttAudioFrame
+      title: Binary audio frame
+      contentType: application/octet-stream
+      payload:
+        type: string
+        format: binary
+        description: >-
+          Raw audio bytes matching the connection's `encoding` and
+          `sample_rate` query parameters, sent as a WebSocket binary frame.
+          100ms chunks are recommended.
+    SttFinalizeCommand:
+      name: SttFinalizeCommand
+      title: Finalize command
+      contentType: text/plain
+      payload:
+        type: string
+        enum:
+          - finalize
+        description: Text command instructing the server to transcribe currently buffered audio.
+    SttCloseCommand:
+      name: SttCloseCommand
+      title: Close command
+      contentType: text/plain
+      payload:
+        type: string
+        enum:
+          - close
+        description: Text command instructing the server to flush remaining audio and terminate the session.
+    SttTranscript:
+      name: SttTranscript
+      title: Transcript chunk
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SttTranscriptPayload'
+      examples:
+        - name: partial
+          payload:
+            type: transcript
+            is_final: false
+            text: Hello wor
+            words:
+              - word: Hello
+                start: 0
+                end: 0.4
+            request_id: req_01jbd6g2qdfw2adyrt2az8hz4w
+        - name: final
+          payload:
+            type: transcript
+            is_final: true
+            text: Hello world
+            words:
+              - word: Hello
+                start: 0
+                end: 0.4
+              - word: world
+                start: 0.5
+                end: 0.9
+            request_id: req_01jbd6g2qdfw2adyrt2az8hz4w
+    SttFlushDone:
+      name: SttFlushDone
+      title: Finalize acknowledgement
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/FlushDonePayload'
+    SttDone:
+      name: SttDone
+      title: Close acknowledgement
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DonePayload'
+    SttError:
+      name: SttError
+      title: Error response
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ErrorPayload'
+  schemas:
+    TtsGenerationRequestPayload:
+      type: object
+      required:
+        - model_id
+        - transcript
+        - voice
+        - output_format
+        - context_id
+      properties:
+        model_id:
+          type: string
+          enum: [sonic-3.5, sonic-3, sonic-latest]
+        transcript:
+          type: string
+        voice:
+          type: object
+          required: [mode, id]
+          properties:
+            mode:
+              type: string
+              enum: [id]
+            id:
+              type: string
+              format: uuid
+        output_format:
+          type: object
+          required: [container, encoding, sample_rate]
+          properties:
+            container:
+              type: string
+              enum: [raw]
+            encoding:
+              type: string
+              enum: [pcm_f32le, pcm_s16le, pcm_mulaw, pcm_alaw]
+            sample_rate:
+              type: integer
+              enum: [8000, 16000, 22050, 24000, 44100, 48000]
+        context_id:
+          type: string
+          description: Unique identifier correlating requests/responses and preserving prosody across continued chunks.
+        language:
+          type: string
+          description: One of 40+ supported language codes.
+        continue:
+          type: boolean
+          default: false
+          description: Set true if more transcript chunks follow on this context_id; false on the final chunk.
+        flush:
+          type: boolean
+          description: Trigger a context flush.
+        max_buffer_delay_ms:
+          type: integer
+          minimum: 0
+          maximum: 5000
+          default: 3000
+        add_timestamps:
+          type: boolean
+          default: false
+        add_phoneme_timestamps:
+          type: boolean
+          default: false
+        pronunciation_dict_id:
+          type: string
+          nullable: true
+        generation_config:
+          type: object
+          properties:
+            volume:
+              type: number
+              minimum: 0.5
+              maximum: 2.0
+              default: 1
+            speed:
+              type: number
+              minimum: 0.6
+              maximum: 1.5
+              default: 1
+            emotion:
+              type: string
+              enum: [neutral, calm, angry, content, sad]
+    TtsCancelRequestPayload:
+      type: object
+      required:
+        - context_id
+        - cancel
+      properties:
+        context_id:
+          type: string
+        cancel:
+          type: boolean
+          enum: [true]
+    TtsAudioChunkPayload:
+      type: object
+      required:
+        - type
+        - data
+        - context_id
+      properties:
+        type:
+          type: string
+          enum: [chunk]
+        data:
+          type: string
+          description: Base64-encoded audio data.
+        done:
+          type: boolean
+        status_code:
+          type: integer
+        step_time:
+          type: integer
+          description: Milliseconds taken to generate this chunk.
+        context_id:
+          type: string
+    TtsWordTimestampsPayload:
+      type: object
+      required:
+        - type
+        - context_id
+      properties:
+        type:
+          type: string
+          enum: [timestamps]
+        done:
+          type: boolean
+        status_code:
+          type: integer
+        context_id:
+          type: string
+        word_timestamps:
+          type: object
+          properties:
+            words:
+              type: array
+              items:
+                type: string
+            start:
+              type: array
+              items:
+                type: number
+            end:
+              type: array
+              items:
+                type: number
+    TtsPhonemeTimestampsPayload:
+      type: object
+      required:
+        - type
+        - context_id
+      properties:
+        type:
+          type: string
+          enum: [phoneme_timestamps]
+        done:
+          type: boolean
+        status_code:
+          type: integer
+        context_id:
+          type: string
+        phoneme_timestamps:
+          type: object
+          properties:
+            phonemes:
+              type: array
+              items:
+                type: string
+            start:
+              type: array
+              items:
+                type: number
+            end:
+              type: array
+              items:
+                type: number
+    FlushDonePayload:
+      type: object
+      required:
+        - type
+        - context_id
+      properties:
+        type:
+          type: string
+          enum: [flush_done]
+        done:
+          type: boolean
+        flush_done:
+          type: boolean
+        flush_id:
+          type: integer
+          description: Increments with each flush command, correlating with transcript batches.
+        status_code:
+          type: integer
+        context_id:
+          type: string
+    DonePayload:
+      type: object
+      required:
+        - type
+        - done
+        - context_id
+      properties:
+        type:
+          type: string
+          enum: [done]
+        done:
+          type: boolean
+          enum: [true]
+        status_code:
+          type: integer
+        context_id:
+          type: string
+    ErrorPayload:
+      type: object
+      required:
+        - type
+        - error_code
+        - status_code
+      properties:
+        type:
+          type: string
+          enum: [error]
+        done:
+          type: boolean
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
+        context_id:
+          type: string
+    SttTranscriptPayload:
+      type: object
+      required:
+        - type
+        - is_final
+        - text
+      properties:
+        type:
+          type: string
+          enum: [transcript]
+        is_final:
+          type: boolean
+          description: Whether this chunk represents a finalized segment of the transcript.
+        text:
+          type: string
+          description: Delta text since the last finalized chunk.
+        words:
+          type: array
+          items:
+            type: object
+            properties:
+              word:
+                type: string
+              start:
+                type: number
+              end:
+                type: number
+        request_id:
+          type: string
+x-maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,443 @@
+{
+  "info": {
+    "name": "Cartesia API",
+    "description": "Real-time voice AI - Text-to-Speech, Speech-to-Text, Voices, Voice Changer, Infill, Datasets, Pronunciation Dictionaries, API Keys, and the Voice Agents platform. Base URL: https://api.cartesia.ai. All requests require a Cartesia-Version header and an Authorization: Bearer API key (sk_car_...) or scoped access token. Realtime TTS and STT are also available over WebSocket at wss://api.cartesia.ai (see the companion AsyncAPI document).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{bearerToken}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.cartesia.ai", "type": "string" },
+    { "key": "bearerToken", "value": "", "type": "string" },
+    { "key": "cartesiaVersion", "value": "2026-03-01", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Text-to-Speech",
+      "item": [
+        {
+          "name": "Text-to-Speech (Bytes)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"model_id\": \"sonic-3.5\",\n  \"transcript\": \"Hello, world!\",\n  \"voice\": { \"mode\": \"id\", \"id\": \"a0e99841-438c-4a64-b679-ae501e7d6091\" },\n  \"output_format\": { \"container\": \"wav\", \"encoding\": \"pcm_s16le\", \"sample_rate\": 44100 }\n}" },
+            "url": { "raw": "{{baseUrl}}/tts/bytes", "host": ["{{baseUrl}}"], "path": ["tts", "bytes"] },
+            "description": "Synthesizes a complete transcript and returns raw audio bytes."
+          }
+        },
+        {
+          "name": "Text-to-Speech (SSE)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"model_id\": \"sonic-3.5\",\n  \"transcript\": \"Hello, world!\",\n  \"voice\": { \"mode\": \"id\", \"id\": \"a0e99841-438c-4a64-b679-ae501e7d6091\" },\n  \"output_format\": { \"container\": \"raw\", \"encoding\": \"pcm_s16le\", \"sample_rate\": 44100 },\n  \"add_timestamps\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/tts/sse", "host": ["{{baseUrl}}"], "path": ["tts", "sse"] },
+            "description": "Streams audio chunks with extra metadata as Server-Sent Events."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Speech-to-Text",
+      "item": [
+        {
+          "name": "Batch Speech-to-Text",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "file", "type": "file", "src": "" },
+              { "key": "model", "value": "ink-whisper", "type": "text" },
+              { "key": "language", "value": "en", "type": "text" }
+            ] },
+            "url": { "raw": "{{baseUrl}}/stt", "host": ["{{baseUrl}}"], "path": ["stt"] },
+            "description": "Transcribes an audio file of any length."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Voices",
+      "item": [
+        {
+          "name": "List Voices",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/voices?limit=20", "host": ["{{baseUrl}}"], "path": ["voices"], "query": [{ "key": "limit", "value": "20" }] },
+            "description": "Returns a paginated list of voices."
+          }
+        },
+        {
+          "name": "Clone Voice",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "clip", "type": "file", "src": "" },
+              { "key": "name", "value": "My Cloned Voice", "type": "text" },
+              { "key": "language", "value": "en", "type": "text" }
+            ] },
+            "url": { "raw": "{{baseUrl}}/voices/clone", "host": ["{{baseUrl}}"], "path": ["voices", "clone"] },
+            "description": "Clones a new voice from an uploaded audio clip."
+          }
+        },
+        {
+          "name": "Get Voice",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/voices/:id", "host": ["{{baseUrl}}"], "path": ["voices", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a voice by ID."
+          }
+        },
+        {
+          "name": "Update Voice",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Name\"\n}" },
+            "url": { "raw": "{{baseUrl}}/voices/:id", "host": ["{{baseUrl}}"], "path": ["voices", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Updates voice metadata."
+          }
+        },
+        {
+          "name": "Delete Voice",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/voices/:id", "host": ["{{baseUrl}}"], "path": ["voices", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Deletes a voice."
+          }
+        },
+        {
+          "name": "Localize Voice",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"voice_id\": \"a0e99841-438c-4a64-b679-ae501e7d6091\",\n  \"name\": \"My Voice (French)\",\n  \"language\": \"fr\"\n}" },
+            "url": { "raw": "{{baseUrl}}/voices/localize", "host": ["{{baseUrl}}"], "path": ["voices", "localize"] },
+            "description": "Creates a new voice from an existing voice localized to a new language and dialect."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Voice Changer",
+      "item": [
+        {
+          "name": "Voice Changer (Bytes)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "clip", "type": "file", "src": "" },
+              { "key": "voice_id", "value": "a0e99841-438c-4a64-b679-ae501e7d6091", "type": "text" },
+              { "key": "output_format[container]", "value": "wav", "type": "text" },
+              { "key": "output_format[sample_rate]", "value": "44100", "type": "text" }
+            ] },
+            "url": { "raw": "{{baseUrl}}/voice-changer/bytes", "host": ["{{baseUrl}}"], "path": ["voice-changer", "bytes"] },
+            "description": "Transforms speech into a different target voice, returning raw audio bytes."
+          }
+        },
+        {
+          "name": "Voice Changer (SSE)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "clip", "type": "file", "src": "" },
+              { "key": "voice_id", "value": "a0e99841-438c-4a64-b679-ae501e7d6091", "type": "text" },
+              { "key": "output_format[container]", "value": "raw", "type": "text" },
+              { "key": "output_format[sample_rate]", "value": "44100", "type": "text" }
+            ] },
+            "url": { "raw": "{{baseUrl}}/voice-changer/sse", "host": ["{{baseUrl}}"], "path": ["voice-changer", "sse"] },
+            "description": "Transforms speech into a different target voice, streamed as Server-Sent Events."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Infill",
+      "item": [
+        {
+          "name": "Infill (Bytes)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "left_audio", "type": "file", "src": "" },
+              { "key": "right_audio", "type": "file", "src": "" },
+              { "key": "transcript", "value": "and that is how it happened", "type": "text" },
+              { "key": "model_id", "value": "sonic-3", "type": "text" },
+              { "key": "voice_id", "value": "a0e99841-438c-4a64-b679-ae501e7d6091", "type": "text" },
+              { "key": "output_format[container]", "value": "wav", "type": "text" },
+              { "key": "output_format[sample_rate]", "value": "44100", "type": "text" }
+            ] },
+            "url": { "raw": "{{baseUrl}}/infill/bytes", "host": ["{{baseUrl}}"], "path": ["infill", "bytes"] },
+            "description": "Generates audio that smoothly connects two existing audio segments."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Datasets",
+      "item": [
+        {
+          "name": "List Datasets",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/datasets", "host": ["{{baseUrl}}"], "path": ["datasets"] },
+            "description": "Paginated list of datasets."
+          }
+        },
+        {
+          "name": "Create Dataset",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"My Dataset\",\n  \"description\": \"Training clips\"\n}" },
+            "url": { "raw": "{{baseUrl}}/datasets/", "host": ["{{baseUrl}}"], "path": ["datasets", ""] },
+            "description": "Creates a new dataset."
+          }
+        },
+        {
+          "name": "Upload File to Dataset",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "body": { "mode": "formdata", "formdata": [
+              { "key": "file", "type": "file", "src": "" }
+            ] },
+            "url": { "raw": "{{baseUrl}}/datasets/:id/files", "host": ["{{baseUrl}}"], "path": ["datasets", ":id", "files"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Uploads a new file to a dataset."
+          }
+        },
+        {
+          "name": "Delete Dataset",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/datasets/:id", "host": ["{{baseUrl}}"], "path": ["datasets", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Deletes a dataset."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pronunciation Dictionaries",
+      "item": [
+        {
+          "name": "List Pronunciation Dictionaries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/pronunciation-dictionaries", "host": ["{{baseUrl}}"], "path": ["pronunciation-dictionaries"] },
+            "description": "List all pronunciation dictionaries for the authenticated user."
+          }
+        },
+        {
+          "name": "Create Pronunciation Dictionary",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Product Names\",\n  \"rules\": []\n}" },
+            "url": { "raw": "{{baseUrl}}/pronunciation-dictionaries", "host": ["{{baseUrl}}"], "path": ["pronunciation-dictionaries"] },
+            "description": "Creates a new pronunciation dictionary."
+          }
+        }
+      ]
+    },
+    {
+      "name": "API Keys & Auth",
+      "item": [
+        {
+          "name": "List API Keys",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/api-keys", "host": ["{{baseUrl}}"], "path": ["api-keys"] },
+            "description": "Returns a paginated list of standard API keys."
+          }
+        },
+        {
+          "name": "Generate Access Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"grants\": { \"tts\": true, \"stt\": false, \"agent\": false },\n  \"expires_in\": 60\n}" },
+            "url": { "raw": "{{baseUrl}}/access-token", "host": ["{{baseUrl}}"], "path": ["access-token"] },
+            "description": "Generates a short-lived access token to make API requests."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Voice Agents",
+      "item": [
+        {
+          "name": "List Agents",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/agents", "host": ["{{baseUrl}}"], "path": ["agents"] },
+            "description": "Lists all agents associated with your account."
+          }
+        },
+        {
+          "name": "List Agent Templates",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/agents/templates", "host": ["{{baseUrl}}"], "path": ["agents", "templates"] },
+            "description": "List of public, Cartesia-provided agent templates."
+          }
+        },
+        {
+          "name": "Create Outbound Call",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"agent_id\": \"\",\n  \"to\": \"+15555550100\"\n}" },
+            "url": { "raw": "{{baseUrl}}/calls/outbound", "host": ["{{baseUrl}}"], "path": ["calls", "outbound"] },
+            "description": "Places an outbound call using a voice agent."
+          }
+        },
+        {
+          "name": "List Calls",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/calls", "host": ["{{baseUrl}}"], "path": ["calls"] },
+            "description": "Lists calls."
+          }
+        },
+        {
+          "name": "Create Call Batch",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"agent_id\": \"\",\n  \"recipients\": [{ \"to\": \"+15555550100\" }]\n}" },
+            "url": { "raw": "{{baseUrl}}/call-batches", "host": ["{{baseUrl}}"], "path": ["call-batches"] },
+            "description": "Queues a batch of outbound calls."
+          }
+        },
+        {
+          "name": "Provision Cartesia Number",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"area_code\": \"415\"\n}" },
+            "url": { "raw": "{{baseUrl}}/phone-numbers/provision", "host": ["{{baseUrl}}"], "path": ["phone-numbers", "provision"] },
+            "description": "Provision a new Cartesia-managed US phone number."
+          }
+        },
+        {
+          "name": "Create Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"url\": \"https://example.com/webhooks/cartesia\",\n  \"events\": [\"call.completed\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks"] },
+            "description": "Register a webhook endpoint."
+          }
+        },
+        {
+          "name": "List Documents",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/documents", "host": ["{{baseUrl}}"], "path": ["documents"] },
+            "description": "List all knowledge base documents in your organization."
+          }
+        },
+        {
+          "name": "List Metrics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/metrics", "host": ["{{baseUrl}}"], "path": ["metrics"] },
+            "description": "List of all LLM-as-a-Judge metrics owned by your account."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Usage",
+      "item": [
+        {
+          "name": "Get Credit Usage",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/usage/credits?interval=day", "host": ["{{baseUrl}}"], "path": ["usage", "credits"], "query": [{ "key": "interval", "value": "day" }] },
+            "description": "Returns your credit usage over time, bucketed by the requested interval."
+          }
+        },
+        {
+          "name": "Get Agent Usage",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cartesia-Version", "value": "{{cartesiaVersion}}" }],
+            "url": { "raw": "{{baseUrl}}/usage/agents?interval=day", "host": ["{{baseUrl}}"], "path": ["usage", "agents"], "query": [{ "key": "interval", "value": "day" }] },
+            "description": "Returns your agent usage over time, bucketed by the requested interval."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Status",
+      "item": [
+        {
+          "name": "API Status and Version",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api-status", "host": ["{{baseUrl}}"], "path": ["api-status"] },
+            "description": "Returns current API health and version."
+          }
+        }
+      ]
+    }
+  ]
+}

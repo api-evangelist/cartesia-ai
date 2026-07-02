@@ -1,0 +1,123 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Cartesia
+providerId: cartesia-ai
+created: '2026-07-02'
+modified: '2026-07-02'
+reconciled: true
+tags:
+- AI
+- Voice AI
+- Text to Speech
+- Speech to Text
+- WebSocket
+- Rate Limiting
+- Quotas
+- Concurrency
+description: >-
+  Cartesia enforces concurrency-based limits rather than classic
+  requests-per-minute quotas. Each plan caps the number of simultaneous
+  TTS requests, simultaneous STT requests, and active agent slots; a
+  single TTS WebSocket connection can multiplex "dozens" of concurrent
+  generation contexts within its plan's TTS concurrency ceiling. Usage
+  above the plan's monthly credit allowance is billed or blocked depending
+  on account configuration.
+notes: >-
+  Cartesia does not publish numeric requests-per-minute or requests-per-day
+  ceilings; the governing dimension is concurrent open connections/requests
+  per plan. Verify current per-plan concurrency numbers on the pricing page
+  during reconciliation, since they are tied to commercial tiers that can
+  change.
+sources:
+- https://cartesia.ai/pricing
+- https://docs.cartesia.ai/api-reference/tts/websocket
+- https://docs.cartesia.ai/api-reference/stt/websocket
+responseCodes:
+  throttled: 429
+limits:
+- name: Concurrent TTS Requests (Free)
+  scope: account
+  metric: connections
+  limit: 2
+  notes: Applies to /tts/bytes, /tts/sse, and /tts/websocket combined.
+- name: Concurrent TTS Requests (Pro)
+  scope: account
+  metric: connections
+  limit: 3
+  notes: Applies to /tts/bytes, /tts/sse, and /tts/websocket combined.
+- name: Concurrent TTS Requests (Startup)
+  scope: account
+  metric: connections
+  limit: 5
+  notes: Applies to /tts/bytes, /tts/sse, and /tts/websocket combined.
+- name: Concurrent TTS Requests (Scale)
+  scope: account
+  metric: connections
+  limit: 15
+  notes: Applies to /tts/bytes, /tts/sse, and /tts/websocket combined.
+- name: Concurrent STT Requests (Free)
+  scope: account
+  metric: connections
+  limit: 8
+  notes: Applies to /stt, /stt/websocket, and /stt/turns/websocket combined.
+- name: Concurrent STT Requests (Pro)
+  scope: account
+  metric: connections
+  limit: 12
+  notes: Applies to /stt, /stt/websocket, and /stt/turns/websocket combined.
+- name: Concurrent STT Requests (Startup)
+  scope: account
+  metric: connections
+  limit: 20
+  notes: Applies to /stt, /stt/websocket, and /stt/turns/websocket combined.
+- name: Concurrent STT Requests (Scale)
+  scope: account
+  metric: connections
+  limit: 60
+  notes: Applies to /stt, /stt/websocket, and /stt/turns/websocket combined.
+- name: Agent Slots (Free)
+  scope: account
+  metric: agents
+  limit: 1
+  notes: Number of configured voice agents allowed simultaneously.
+- name: Agent Slots (Pro)
+  scope: account
+  metric: agents
+  limit: 3
+  notes: Number of configured voice agents allowed simultaneously.
+- name: Agent Slots (Startup)
+  scope: account
+  metric: agents
+  limit: 5
+  notes: Number of configured voice agents allowed simultaneously.
+- name: Agent Slots (Scale)
+  scope: account
+  metric: agents
+  limit: 10
+  notes: Number of configured voice agents allowed simultaneously.
+- name: TTS WebSocket Context Multiplexing
+  scope: connection
+  metric: contexts
+  limit: dozens per connection (published guidance, not a hard number)
+  notes: A single wss://api.cartesia.ai/tts/websocket connection can run many concurrent context_id generations; still bounded by the account's overall concurrent TTS request limit.
+- name: STT WebSocket Audio Cadence
+  scope: connection
+  metric: frames
+  limit: 100ms recommended chunk size
+  notes: Binary audio frames should be sent in roughly 100ms chunks matching the negotiated encoding and sample_rate.
+- name: Access Token Lifetime
+  scope: token
+  metric: seconds
+  limit: 3600
+  notes: Short-lived scoped tokens minted via POST /access-token expire after at most 3600 seconds.
+policies:
+- name: Concurrency Over Rate
+  description: Cartesia governs load primarily through simultaneous connection/request ceilings per plan rather than a rolling per-minute request counter.
+- name: Enterprise Custom Concurrency
+  description: Enterprise agreements can raise TTS/STT concurrency and agent slot limits beyond the Scale tier.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses, and should reuse a single WebSocket connection across many contexts rather than opening one per generation.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
