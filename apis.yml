@@ -253,6 +253,12 @@ apis:
     agent usage over time, bucketed by the requested interval, for
     monitoring spend against a plan's included credits.
 common:
+- type: DomainSecurity
+  url: security/cartesia-ai-domain-security.yml
+- type: Authentication
+  url: authentication/cartesia-ai-authentication.yml
+- url: https://cartesia.ai/blog
+  type: Blog
 - type: GitHubOrganization
   url: https://github.com/cartesia-ai
 - type: LinkedIn
