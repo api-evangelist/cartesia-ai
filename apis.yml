@@ -253,6 +253,8 @@ apis:
     agent usage over time, bucketed by the requested interval, for
     monitoring spend against a plan's included credits.
 common:
+- type: AgenticAccess
+  url: agentic-access/cartesia-ai-agentic-access.yml
 - type: DomainSecurity
   url: security/cartesia-ai-domain-security.yml
 - type: Authentication
