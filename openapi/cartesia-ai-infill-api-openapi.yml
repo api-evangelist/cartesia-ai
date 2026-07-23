@@ -1,0 +1,146 @@
+openapi: 3.0.3
+info:
+  title: Cartesia Agents Infill API
+  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  version: '2026-03-01'
+  contact:
+    name: Cartesia
+    url: https://cartesia.ai
+  license:
+    name: API documentation - Cartesia Terms of Service
+    url: https://cartesia.ai/terms-of-service
+servers:
+- url: https://api.cartesia.ai
+  description: Cartesia production API
+security:
+- bearerAuth: []
+tags:
+- name: Infill
+  description: Generate audio that smoothly connects two existing audio segments.
+paths:
+  /infill/bytes:
+    post:
+      operationId: infillBytes
+      tags:
+      - Infill
+      summary: Infill (Bytes)
+      description: Generates audio that smoothly connects two existing audio segments. At least one of left_audio or right_audio must be provided.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - transcript
+              properties:
+                left_audio:
+                  type: string
+                  format: binary
+                  description: Audio preceding the infill text.
+                right_audio:
+                  type: string
+                  format: binary
+                  description: Audio following the infill text.
+                transcript:
+                  type: string
+                  description: Text to generate between the two audio segments.
+                model_id:
+                  type: string
+                  enum:
+                  - sonic-3
+                  - sonic-3-2026-01-12
+                  - sonic-3-2025-10-27
+                voice_id:
+                  type: string
+                language:
+                  type: string
+                output_format[container]:
+                  type: string
+                  enum:
+                  - raw
+                  - wav
+                  - mp3
+                output_format[sample_rate]:
+                  type: integer
+                  enum:
+                  - 8000
+                  - 16000
+                  - 22050
+                  - 24000
+                  - 44100
+                  - 48000
+                output_format[encoding]:
+                  type: string
+                  enum:
+                  - pcm_f32le
+                  - pcm_s16le
+                  - pcm_mulaw
+                  - pcm_alaw
+                output_format[bit_rate]:
+                  type: integer
+                  enum:
+                  - 32000
+                  - 64000
+                  - 96000
+                  - 128000
+                  - 192000
+      responses:
+        '200':
+          description: Infilled audio.
+          content:
+            audio/*:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+components:
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
+  schemas:
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: sk_car_... API key or short-lived access token
+      description: 'Cartesia API key (sk_car_...) or a short-lived access token minted via POST /access-token, passed as Authorization: Bearer <token>. Every request also requires the Cartesia-Version header.'

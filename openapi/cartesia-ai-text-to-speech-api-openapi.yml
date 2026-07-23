@@ -1,0 +1,227 @@
+openapi: 3.0.3
+info:
+  title: Cartesia Agents Text-to-Speech API
+  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  version: '2026-03-01'
+  contact:
+    name: Cartesia
+    url: https://cartesia.ai
+  license:
+    name: API documentation - Cartesia Terms of Service
+    url: https://cartesia.ai/terms-of-service
+servers:
+- url: https://api.cartesia.ai
+  description: Cartesia production API
+security:
+- bearerAuth: []
+tags:
+- name: Text-to-Speech
+  description: Single-shot and streamed speech generation over plain HTTP.
+paths:
+  /tts/bytes:
+    post:
+      operationId: ttsBytes
+      tags:
+      - Text-to-Speech
+      summary: Text-to-Speech (Bytes)
+      description: Synthesizes a complete transcript and returns raw audio bytes in a single response.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TtsRequest'
+      responses:
+        '200':
+          description: Synthesized audio.
+          content:
+            audio/*:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /tts/sse:
+    post:
+      operationId: ttsSse
+      tags:
+      - Text-to-Speech
+      summary: Text-to-Speech (SSE)
+      description: Streams audio chunks with extra metadata (timestamps) from a complete transcript as Server-Sent Events.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TtsRequest'
+      responses:
+        '200':
+          description: Server-Sent Events stream of audio chunks and metadata.
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+components:
+  schemas:
+    OutputFormat:
+      type: object
+      required:
+      - container
+      - sample_rate
+      properties:
+        container:
+          type: string
+          enum:
+          - raw
+          - wav
+          - mp3
+        encoding:
+          type: string
+          enum:
+          - pcm_f32le
+          - pcm_s16le
+          - pcm_mulaw
+          - pcm_alaw
+          description: Required for raw and wav containers.
+        sample_rate:
+          type: integer
+          enum:
+          - 8000
+          - 16000
+          - 22050
+          - 24000
+          - 44100
+          - 48000
+        bit_rate:
+          type: integer
+          enum:
+          - 32000
+          - 64000
+          - 96000
+          - 128000
+          - 192000
+          description: Required for mp3 container.
+    GenerationConfig:
+      type: object
+      properties:
+        volume:
+          type: number
+          minimum: 0.5
+          maximum: 2.0
+          default: 1
+        speed:
+          type: number
+          minimum: 0.6
+          maximum: 1.5
+          default: 1
+        emotion:
+          type: string
+          enum:
+          - neutral
+          - happy
+          - excited
+          - calm
+          - angry
+          - content
+          - sad
+          - scared
+          - proud
+          - confident
+          - distant
+          - skeptical
+          - contemplative
+          - determined
+    TtsRequest:
+      type: object
+      required:
+      - model_id
+      - transcript
+      - voice
+      - output_format
+      properties:
+        model_id:
+          type: string
+          enum:
+          - sonic-3.5
+          - sonic-3
+          - sonic-latest
+        transcript:
+          type: string
+        voice:
+          $ref: '#/components/schemas/VoiceRef'
+        language:
+          type: string
+          description: One of 40+ supported language codes (en, fr, de, es, ja, zh, ...).
+        output_format:
+          $ref: '#/components/schemas/OutputFormat'
+        pronunciation_dict_id:
+          type: string
+          nullable: true
+        generation_config:
+          $ref: '#/components/schemas/GenerationConfig'
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
+    VoiceRef:
+      type: object
+      required:
+      - mode
+      - id
+      properties:
+        mode:
+          type: string
+          enum:
+          - id
+        id:
+          type: string
+          format: uuid
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: sk_car_... API key or short-lived access token
+      description: 'Cartesia API key (sk_car_...) or a short-lived access token minted via POST /access-token, passed as Authorization: Bearer <token>. Every request also requires the Cartesia-Version header.'

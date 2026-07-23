@@ -1,0 +1,345 @@
+openapi: 3.0.3
+info:
+  title: Cartesia Agents Voices API
+  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  version: '2026-03-01'
+  contact:
+    name: Cartesia
+    url: https://cartesia.ai
+  license:
+    name: API documentation - Cartesia Terms of Service
+    url: https://cartesia.ai/terms-of-service
+servers:
+- url: https://api.cartesia.ai
+  description: Cartesia production API
+security:
+- bearerAuth: []
+tags:
+- name: Voices
+  description: Voice catalog management and voice cloning.
+paths:
+  /voices:
+    get:
+      operationId: listVoices
+      tags:
+      - Voices
+      summary: List Voices
+      description: Returns a paginated list of voices, with search and filtering.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+      - name: starting_after
+        in: query
+        schema:
+          type: string
+      - name: ending_before
+        in: query
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Search voices by name, description, or ID.
+        schema:
+          type: string
+      - name: is_owner
+        in: query
+        schema:
+          type: boolean
+      - name: gender
+        in: query
+        schema:
+          type: string
+          enum:
+          - masculine
+          - feminine
+          - gender_neutral
+      - name: language
+        in: query
+        schema:
+          type: string
+      - name: expand[]
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - preview_file_url
+      responses:
+        '200':
+          description: A page of voices.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVoicesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /voices/clone:
+    post:
+      operationId: cloneVoice
+      tags:
+      - Voices
+      summary: Clone Voice
+      description: Clones a new voice from an uploaded audio clip.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - clip
+              - name
+              - language
+              properties:
+                clip:
+                  type: string
+                  format: binary
+                  description: 'Supported audio formats: flac, mp3, mpeg, mpga, oga, ogg, wav, webm.'
+                name:
+                  type: string
+                description:
+                  type: string
+                language:
+                  type: string
+                  description: ISO 639-1 code (en, fr, de, es, ...).
+                base_voice_id:
+                  type: string
+                  description: Derive the cloned voice from an existing voice ID.
+      responses:
+        '200':
+          description: The cloned voice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceMetadata'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /voices/{id}:
+    parameters:
+    - $ref: '#/components/parameters/VoiceId'
+    get:
+      operationId: getVoice
+      tags:
+      - Voices
+      summary: Get Voice
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: The requested voice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceMetadata'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateVoice
+      tags:
+      - Voices
+      summary: Update Voice
+      description: Updates voice metadata (name, description).
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: The updated voice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceMetadata'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteVoice
+      tags:
+      - Voices
+      summary: Delete Voice
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /voices/localize:
+    post:
+      operationId: localizeVoice
+      tags:
+      - Voices
+      summary: Localize Voice
+      description: Creates a new voice from an existing voice localized to a new language and dialect.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - voice_id
+              - name
+              - language
+              properties:
+                voice_id:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+                language:
+                  type: string
+                original_speaker_gender:
+                  type: string
+                  enum:
+                  - masculine
+                  - feminine
+      responses:
+        '200':
+          description: The localized voice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceMetadata'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+components:
+  parameters:
+    VoiceId:
+      name: id
+      in: path
+      required: true
+      description: The ID of the voice.
+      schema:
+        type: string
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
+  schemas:
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
+    VoiceMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        is_owner:
+          type: boolean
+        is_public:
+          type: boolean
+        name:
+          type: string
+        description:
+          type: string
+        gender:
+          type: string
+          nullable: true
+        language:
+          type: string
+        country:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        preview_file_url:
+          type: string
+          nullable: true
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
+    GetVoicesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/VoiceMetadata'
+        has_more:
+          type: boolean
+        next_page:
+          type: string
+          nullable: true
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: sk_car_... API key or short-lived access token
+      description: 'Cartesia API key (sk_car_...) or a short-lived access token minted via POST /access-token, passed as Authorization: Bearer <token>. Every request also requires the Cartesia-Version header.'

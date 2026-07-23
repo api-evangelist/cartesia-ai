@@ -1,0 +1,304 @@
+openapi: 3.0.3
+info:
+  title: Cartesia Agents Metrics API
+  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  version: '2026-03-01'
+  contact:
+    name: Cartesia
+    url: https://cartesia.ai
+  license:
+    name: API documentation - Cartesia Terms of Service
+    url: https://cartesia.ai/terms-of-service
+servers:
+- url: https://api.cartesia.ai
+  description: Cartesia production API
+security:
+- bearerAuth: []
+tags:
+- name: Metrics
+  description: LLM-as-a-judge quality metrics for agents.
+paths:
+  /metrics:
+    get:
+      operationId: listMetrics
+      tags:
+      - Metrics
+      summary: List Metrics
+      description: List of all LLM-as-a-Judge metrics owned by your account.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: A page of metrics.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Metric'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createMetric
+      tags:
+      - Metrics
+      summary: Create Metric
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - prompt
+              properties:
+                name:
+                  type: string
+                prompt:
+                  type: string
+      responses:
+        '200':
+          description: The created metric.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metric'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /metrics/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: The ID of the metric.
+      schema:
+        type: string
+    get:
+      operationId: getMetric
+      tags:
+      - Metrics
+      summary: Get Metric
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: The requested metric.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metric'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteMetric
+      tags:
+      - Metrics
+      summary: Delete Metric
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /metrics/{id}/results:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: The ID of the metric.
+      schema:
+        type: string
+    get:
+      operationId: listMetricResults
+      tags:
+      - Metrics
+      summary: List Metric Results
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: A page of metric results.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /metrics/{id}/results/export:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: The ID of the metric.
+      schema:
+        type: string
+    get:
+      operationId: exportMetricResults
+      tags:
+      - Metrics
+      summary: Export Metric Results as CSV
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: CSV export of metric results.
+          content:
+            text/csv:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /agents/{id}/metrics/{metric_id}:
+    parameters:
+    - $ref: '#/components/parameters/AgentId'
+    - name: metric_id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      operationId: addMetricToAgent
+      tags:
+      - Metrics
+      summary: Add Metric to Agent
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: Confirmation the metric was attached.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: removeMetricFromAgent
+      tags:
+      - Metrics
+      summary: Remove Metric from Agent
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: Confirmation the metric was removed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Metric:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        prompt:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    AgentId:
+      name: id
+      in: path
+      required: true
+      description: The ID of the agent.
+      schema:
+        type: string
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: sk_car_... API key or short-lived access token
+      description: 'Cartesia API key (sk_car_...) or a short-lived access token minted via POST /access-token, passed as Authorization: Bearer <token>. Every request also requires the Cartesia-Version header.'

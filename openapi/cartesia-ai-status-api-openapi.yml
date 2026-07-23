@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: Cartesia Agents Status API
+  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  version: '2026-03-01'
+  contact:
+    name: Cartesia
+    url: https://cartesia.ai
+  license:
+    name: API documentation - Cartesia Terms of Service
+    url: https://cartesia.ai/terms-of-service
+servers:
+- url: https://api.cartesia.ai
+  description: Cartesia production API
+security:
+- bearerAuth: []
+tags:
+- name: Status
+  description: API health and version.
+paths:
+  /api-status:
+    get:
+      operationId: getApiStatus
+      tags:
+      - Status
+      summary: API Status and Version
+      security: []
+      responses:
+        '200':
+          description: API health and current version.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  version:
+                    type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: sk_car_... API key or short-lived access token
+      description: 'Cartesia API key (sk_car_...) or a short-lived access token minted via POST /access-token, passed as Authorization: Bearer <token>. Every request also requires the Cartesia-Version header.'

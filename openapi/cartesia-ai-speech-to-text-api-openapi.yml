@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: Cartesia Agents Speech-to-Text API
+  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  version: '2026-03-01'
+  contact:
+    name: Cartesia
+    url: https://cartesia.ai
+  license:
+    name: API documentation - Cartesia Terms of Service
+    url: https://cartesia.ai/terms-of-service
+servers:
+- url: https://api.cartesia.ai
+  description: Cartesia production API
+security:
+- bearerAuth: []
+tags:
+- name: Speech-to-Text
+  description: Batch transcription of an audio file of any length.
+paths:
+  /stt:
+    post:
+      operationId: transcribe
+      tags:
+      - Speech-to-Text
+      summary: Batch Speech-to-Text
+      description: Transcribes an audio file of any length using the ink-whisper model.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      - name: encoding
+        in: query
+        required: false
+        description: PCM encoding, required only when uploading raw headerless PCM.
+        schema:
+          type: string
+          enum:
+          - pcm_s16le
+          - pcm_s32le
+          - pcm_f16le
+          - pcm_f32le
+          - pcm_mulaw
+          - pcm_alaw
+      - name: sample_rate
+        in: query
+        required: false
+        description: Sample rate in Hz, required only when uploading raw headerless PCM.
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              - model
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'Audio file. Supported formats: flac, m4a, mp3, mp4, mpeg.'
+                model:
+                  type: string
+                  enum:
+                  - ink-whisper
+                language:
+                  type: string
+                  description: ISO-639-1 code. Defaults to en. Supports 99+ languages.
+                  default: en
+                timestamp_granularities[]:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - word
+      responses:
+        '200':
+          description: The transcript.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+components:
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    TranscriptResponse:
+      type: object
+      required:
+      - type
+      - text
+      properties:
+        type:
+          type: string
+          enum:
+          - transcript
+        request_id:
+          type: string
+        text:
+          type: string
+        language:
+          type: string
+        duration:
+          type: number
+        words:
+          type: array
+          items:
+            $ref: '#/components/schemas/WordTiming'
+    WordTiming:
+      type: object
+      properties:
+        word:
+          type: string
+        start:
+          type: number
+        end:
+          type: number
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: sk_car_... API key or short-lived access token
+      description: 'Cartesia API key (sk_car_...) or a short-lived access token minted via POST /access-token, passed as Authorization: Bearer <token>. Every request also requires the Cartesia-Version header.'

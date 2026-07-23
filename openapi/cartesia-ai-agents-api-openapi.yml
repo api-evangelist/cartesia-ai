@@ -1,0 +1,250 @@
+openapi: 3.0.3
+info:
+  title: Cartesia Agents API
+  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  version: '2026-03-01'
+  contact:
+    name: Cartesia
+    url: https://cartesia.ai
+  license:
+    name: API documentation - Cartesia Terms of Service
+    url: https://cartesia.ai/terms-of-service
+servers:
+- url: https://api.cartesia.ai
+  description: Cartesia production API
+security:
+- bearerAuth: []
+tags:
+- name: Agents
+  description: Voice agent configuration and public templates.
+paths:
+  /agents:
+    get:
+      operationId: listAgents
+      tags:
+      - Agents
+      summary: List Agents
+      description: Lists all agents associated with your account.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: A page of agents.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Agent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /agents/templates:
+    get:
+      operationId: listAgentTemplates
+      tags:
+      - Agents
+      summary: List Templates
+      description: List of public, Cartesia-provided agent templates.
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: A page of agent templates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /agents/{id}:
+    parameters:
+    - $ref: '#/components/parameters/AgentId'
+    get:
+      operationId: getAgent
+      tags:
+      - Agents
+      summary: Get Agent
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: The requested agent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateAgent
+      tags:
+      - Agents
+      summary: Update Agent
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: The updated agent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteAgent
+      tags:
+      - Agents
+      summary: Delete Agent
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: Deletion confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /agents/{id}/phone-numbers:
+    parameters:
+    - $ref: '#/components/parameters/AgentId'
+    get:
+      operationId: listAgentPhoneNumbers
+      tags:
+      - Agents
+      summary: Agent Phone Numbers
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      responses:
+        '200':
+          description: Phone numbers assigned to this agent.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PhoneNumber'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    PhoneNumber:
+      type: object
+      properties:
+        id:
+          type: string
+        number:
+          type: string
+          description: E.164 phone number.
+        provider_id:
+          type: string
+          nullable: true
+        agent_id:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
+    Agent:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        voice_id:
+          type: string
+        tts_model_id:
+          type: string
+        stt_model:
+          type: string
+        system_prompt:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    AgentId:
+      name: id
+      in: path
+      required: true
+      description: The ID of the agent.
+      schema:
+        type: string
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: sk_car_... API key or short-lived access token
+      description: 'Cartesia API key (sk_car_...) or a short-lived access token minted via POST /access-token, passed as Authorization: Bearer <token>. Every request also requires the Cartesia-Version header.'
