@@ -8,7 +8,20 @@ description: Cartesia builds real-time voice AI - the Sonic family of text-to-sp
   both as REST (bytes and Server-Sent Events) and as a low-latency, bidirectional
   WebSocket protocol at wss://api.cartesia.ai for streaming TTS and STT with
   multiplexed contexts, word/phoneme timestamps, and mid-stream flush and cancel.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cartesia-ai.png
 tags:
 - AI
 - Voice AI
@@ -22,27 +35,6 @@ created: '2026-07-02'
 modified: '2026-07-02'
 specificationVersion: '0.19'
 apis:
-- aid: cartesia-ai:cartesia-ai-text-to-speech-api
-  name: Cartesia Text-to-Speech API
-  tags:
-  - Text to Speech
-  - Sonic
-  - Audio
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
-  baseURL: https://api.cartesia.ai
-  properties:
-  - url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
-    type: Documentation
-  - url: https://docs.cartesia.ai/api-reference/tts/bytes
-    type: APIReference
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: Synthesize speech from text with the Sonic model family (sonic-3.5,
-    sonic-3, sonic-latest) over plain HTTP - a single-shot binary response at
-    POST /tts/bytes or a Server-Sent Events stream with per-chunk metadata at
-    POST /tts/sse. Supports 40+ languages, raw/wav/mp3 output formats, and
-    generation controls for volume, speed, and emotion.
 - aid: cartesia-ai:cartesia-ai-tts-websocket-api
   name: Cartesia TTS WebSocket API
   tags:
@@ -58,31 +50,12 @@ apis:
     type: Documentation
   - url: asyncapi/cartesia-ai-asyncapi.yml
     type: AsyncAPI
-  description: Bidirectional, multiplexed WebSocket at wss://api.cartesia.ai/tts/websocket
-    for realtime speech generation. Clients send JSON generation requests keyed
-    by a context_id (continuing a context preserves prosody across chunks of
-    transcript) and receive base64-encoded audio chunks, optional word and
-    phoneme timestamps, flush acknowledgements, and a final done message. A
-    single connection scales to dozens of concurrent generation contexts.
-- aid: cartesia-ai:cartesia-ai-speech-to-text-api
-  name: Cartesia Speech-to-Text API
-  tags:
-  - Speech to Text
-  - Transcription
-  - Ink Whisper
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/stt/transcribe
-  baseURL: https://api.cartesia.ai
-  properties:
-  - url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
-    type: Documentation
-  - url: https://docs.cartesia.ai/api-reference/stt/transcribe
-    type: APIReference
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: Batch transcription of an audio file of any length with the
-    ink-whisper model at POST /stt. Accepts flac, m4a, mp3, mp4, and mpeg
-    uploads, 99+ languages, and optional word-level timestamp granularity.
+  description: >-
+    Bidirectional, multiplexed WebSocket at wss://api.cartesia.ai/tts/websocket for realtime speech generation.
+    Clients send JSON generation requests keyed by a context_id (continuing a context preserves prosody
+    across chunks of transcript) and receive base64-encoded audio chunks, optional word and phoneme timestamps,
+    flush acknowledgements, and a final done message. A single connection scales to dozens of concurrent
+    generation contexts.
 - aid: cartesia-ai:cartesia-ai-stt-websocket-api
   name: Cartesia STT WebSocket API
   tags:
@@ -100,158 +73,733 @@ apis:
     type: APIReference
   - url: asyncapi/cartesia-ai-asyncapi.yml
     type: AsyncAPI
-  description: Realtime transcription over WebSocket at wss://api.cartesia.ai/stt/websocket.
-    Clients stream raw binary audio in 100ms chunks and issue finalize/close
-    text commands; the server returns incremental and final transcript
-    messages with word-level timing. A companion "Auto" variant at
-    /stt/turns/websocket adds built-in turn detection for conversational
-    agents.
-- aid: cartesia-ai:cartesia-ai-voices-api
-  name: Cartesia Voices API
-  tags:
-  - Voices
-  - Voice Cloning
-  - Localization
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/voices/list
+  description: >-
+    Realtime transcription over WebSocket at wss://api.cartesia.ai/stt/websocket. Clients stream raw binary
+    audio in 100ms chunks and issue finalize/close text commands; the server returns incremental and final
+    transcript messages with word-level timing. A companion "Auto" variant at /stt/turns/websocket adds
+    built-in turn detection for conversational agents.
+- aid: cartesia-ai:cartesia-ai-agents-api
+  name: Cartesia Agents API
+  description: Voice agent configuration and public templates.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
   baseURL: https://api.cartesia.ai
-  properties:
-  - url: https://docs.cartesia.ai/api-reference/voices/list
-    type: APIReference
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: Manage the voice catalog - list, search, and filter voices by
-    gender, language, and ownership; get, update, and delete a voice; clone a
-    new voice from an uploaded audio clip at POST /voices/clone; and localize
-    an existing voice into a new language and dialect at POST /voices/localize.
-- aid: cartesia-ai:cartesia-ai-voice-changer-api
-  name: Cartesia Voice Changer API
   tags:
-  - Voice Changer
-  - Audio
-  - Speech to Speech
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/voice-changer/bytes
-  baseURL: https://api.cartesia.ai
+  - Agents
   properties:
-  - url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
-    type: APIReference
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: Transform an input speech recording into a different target
-    voice - a single-shot binary response at POST /voice-changer/bytes or a
-    Server-Sent Events stream at POST /voice-changer/sse.
-- aid: cartesia-ai:cartesia-ai-infill-api
-  name: Cartesia Infill API
-  tags:
-  - Infill
-  - Audio Editing
-  - Sonic
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: OpenAPI
+    url: openapi/cartesia-ai-agents-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-api-keys-api
+  name: Cartesia API Keys API
+  description: Standard API key metadata.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
   baseURL: https://api.cartesia.ai
-  properties:
-  - url: https://docs.cartesia.ai/api-reference/infill/bytes
-    type: APIReference
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: Generate audio that smoothly connects two existing audio
-    segments at POST /infill/bytes - supply a left and/or right audio clip
-    plus the transcript to be spoken between them, useful for fixing or
-    extending existing voice recordings without a full re-record.
-- aid: cartesia-ai:cartesia-ai-datasets-api
-  name: Cartesia Datasets API
-  tags:
-  - Datasets
-  - Fine-Tuning
-  - Files
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/datasets/list
-  baseURL: https://api.cartesia.ai
-  properties:
-  - url: https://docs.cartesia.ai/api-reference/datasets/list
-    type: APIReference
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: Create, list, get, update, and delete datasets, and upload,
-    list, and delete files within a dataset - the audio/text collections used
-    to build custom fine-tunes and voices.
-- aid: cartesia-ai:cartesia-ai-pronunciation-dictionaries-api
-  name: Cartesia Pronunciation Dictionaries API
-  tags:
-  - Pronunciation
-  - Dictionaries
-  - Text to Speech
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
-  baseURL: https://api.cartesia.ai
-  properties:
-  - url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
-    type: APIReference
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: Create, list, get, update, and delete custom pronunciation
-    dictionaries that can be referenced by pronunciation_dict_id on TTS
-    requests to override how specific words or terms are spoken.
-- aid: cartesia-ai:cartesia-ai-api-keys-auth-api
-  name: Cartesia API Keys and Auth API
   tags:
   - API Keys
-  - Authentication
-  - Access Tokens
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/api-keys/list
-  baseURL: https://api.cartesia.ai
   properties:
-  - url: https://docs.cartesia.ai/api-reference/api-keys/list
-    type: APIReference
-  - url: https://docs.cartesia.ai/api-reference/auth/access-token
-    type: Documentation
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: List and get metadata for standard API keys, and mint
-    short-lived (up to 3600s) scoped access tokens at POST /access-token with
-    tts/stt/agent grants for safe use in browser and client-side contexts.
-- aid: cartesia-ai:cartesia-ai-voice-agents-api
-  name: Cartesia Voice Agents API
+  - type: OpenAPI
+    url: openapi/cartesia-ai-api-keys-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-auth-api
+  name: Cartesia Auth API
+  description: Short-lived, scoped access token generation.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
   tags:
-  - Voice Agents
-  - Telephony
-  - Calls
-  - Knowledge Base
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/agents/agents/list
-  baseURL: https://api.cartesia.ai
+  - Auth
   properties:
-  - url: https://docs.cartesia.ai/api-reference/agents/agents/list
-    type: APIReference
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: Build and operate voice agents end to end - manage agents and
-    public templates; place, list, cancel, and batch outbound calls and
-    download call audio and logs; import, provision, and manage telephony
-    phone numbers and provider accounts; register webhooks; inspect
-    deployments; and maintain a knowledge base of documents and folders plus
-    LLM-as-a-judge metrics used to evaluate agent quality.
+  - type: OpenAPI
+    url: openapi/cartesia-ai-auth-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-calls-api
+  name: Cartesia Calls API
+  description: Outbound call placement, batching, and history.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Calls
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-calls-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-datasets-api
+  name: Cartesia Datasets API
+  description: Audio/text collections used to build custom fine-tunes and voices.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Datasets
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-datasets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-deployments-api
+  name: Cartesia Deployments API
+  description: Agent deployment inspection.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Deployments
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-deployments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-infill-api
+  name: Cartesia Infill API
+  description: Generate audio that smoothly connects two existing audio segments.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Infill
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-infill-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-knowledge-base-api
+  name: Cartesia Knowledge Base API
+  description: Documents and folders used by agents.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Knowledge Base
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-knowledge-base-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-metrics-api
+  name: Cartesia Metrics API
+  description: LLM-as-a-judge quality metrics for agents.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Metrics
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-metrics-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-phone-numbers-api
+  name: Cartesia Phone Numbers API
+  description: Telephony number provisioning and import.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Phone Numbers
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-phone-numbers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-pronunciation-dictionaries-api
+  name: Cartesia Pronunciation Dictionaries API
+  description: Custom pronunciation overrides referenced by TTS requests.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Pronunciation Dictionaries
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-pronunciation-dictionaries-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-providers-api
+  name: Cartesia Providers API
+  description: Linked telephony provider accounts.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-providers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-speech-to-text-api
+  name: Cartesia Speech-to-Text API
+  description: Batch transcription of an audio file of any length.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Speech-to-Text
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-speech-to-text-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-status-api
+  name: Cartesia Status API
+  description: API health and version.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-status-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-text-to-speech-api
+  name: Cartesia Text-to-Speech API
+  description: Single-shot and streamed speech generation over plain HTTP.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Text-to-Speech
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-text-to-speech-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
 - aid: cartesia-ai:cartesia-ai-usage-api
   name: Cartesia Usage API
+  description: Credit and agent usage reporting.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
   tags:
   - Usage
-  - Credits
-  - Billing
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.cartesia.ai/api-reference/usage/credits
-  baseURL: https://api.cartesia.ai
   properties:
-  - url: https://docs.cartesia.ai/api-reference/usage/credits
-    type: APIReference
-  - url: https://docs.cartesia.ai/api-reference/usage/agents
-    type: APIReference
-  - url: openapi/cartesia-ai-openapi.yml
-    type: OpenAPI
-  description: Read-only usage endpoints returning credit consumption and
-    agent usage over time, bucketed by the requested interval, for
-    monitoring spend against a plan's included credits.
+  - type: OpenAPI
+    url: openapi/cartesia-ai-usage-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-voice-changer-api
+  name: Cartesia Voice Changer API
+  description: Transform speech into a different target voice.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Voice Changer
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-voice-changer-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-voices-api
+  name: Cartesia Voices API
+  description: Voice catalog management and voice cloning.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Voices
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-voices-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-webhooks-api
+  name: Cartesia Webhooks API
+  description: Webhook endpoint registration.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
+  baseURL: https://api.cartesia.ai
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/tts-models/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/tts/bytes
+  - type: Documentation
+    url: https://docs.cartesia.ai/build-with-cartesia/stt/latest
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/stt/transcribe
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voices/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/voice-changer/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/infill/bytes
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/datasets/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/pronunciation-dicts/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/api-keys/list
+  - type: Documentation
+    url: https://docs.cartesia.ai/api-reference/auth/access-token
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/agents/agents/list
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/credits
+  - type: APIReference
+    url: https://docs.cartesia.ai/api-reference/usage/agents
 common:
 - type: AgenticAccess
   url: agentic-access/cartesia-ai-agentic-access.yml
