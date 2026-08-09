@@ -1,0 +1,316 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cartesia API",
+    "version": "2024-11-13"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "TTS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate speech audio as bytes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/tts/bytes",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate speech audio as bytes"
+        },
+        {
+          "info": {
+            "name": "Generate speech audio as a Server-Sent Events stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/tts/sse",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate speech audio as a Server-Sent Events stream"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "STT",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Batch transcribe audio with the Ink model",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/stt/transcribe",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "model",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "language",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp_granularities",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Batch transcribe audio with the Ink model"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Voices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List voices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/voices",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "List voices"
+        },
+        {
+          "info": {
+            "name": "Get a voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/voices/:id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a voice"
+        },
+        {
+          "info": {
+            "name": "Update a voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.cartesia.ai/voices/:id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a voice"
+        },
+        {
+          "info": {
+            "name": "Delete a voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.cartesia.ai/voices/:id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a voice"
+        },
+        {
+          "info": {
+            "name": "Clone a voice from a sample",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/voices/clone",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "clip",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "name",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "description",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "language",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "mode",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Clone a voice from a sample"
+        },
+        {
+          "info": {
+            "name": "Localize an existing voice to a different language",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/voices/localize",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Localize an existing voice to a different language"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate a short-lived client access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/auth/access-token",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate a short-lived client access token"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

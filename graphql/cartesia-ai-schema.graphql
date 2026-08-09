@@ -1,0 +1,731 @@
+# Cartesia GraphQL Schema
+# Conceptual GraphQL representation of the Cartesia real-time TTS and voice cloning API.
+# Native interfaces: REST, SSE, WebSocket. This schema targets tooling and federation use.
+
+# ----- Scalars -----
+
+scalar DateTime
+scalar JSON
+scalar URL
+scalar AudioBytes
+
+# ----- Enums -----
+
+enum VoiceGender {
+  MALE
+  FEMALE
+  NEUTRAL
+}
+
+enum VoiceAge {
+  CHILD
+  YOUNG_ADULT
+  ADULT
+  MIDDLE_AGED
+  SENIOR
+}
+
+enum VoiceAccent {
+  AMERICAN
+  BRITISH
+  AUSTRALIAN
+  CANADIAN
+  IRISH
+  SCOTTISH
+  INDIAN
+  SOUTH_AFRICAN
+  NEUTRAL
+  OTHER
+}
+
+enum VoiceEmotion {
+  NEUTRAL
+  HAPPY
+  SAD
+  ANGRY
+  FEARFUL
+  SURPRISED
+  DISGUSTED
+  EXCITED
+  CALM
+}
+
+enum VoiceSpeed {
+  SLOWEST
+  SLOW
+  NORMAL
+  FAST
+  FASTEST
+}
+
+enum CloneStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum CloneSource {
+  UPLOAD
+  URL
+  RECORDING
+}
+
+enum AudioFormat {
+  MP3
+  PCM
+  WAV
+  OGG
+  FLAC
+  AAC
+  OPUS
+}
+
+enum AudioSampleRate {
+  RATE_8000
+  RATE_16000
+  RATE_22050
+  RATE_24000
+  RATE_44100
+  RATE_48000
+}
+
+enum AudioBitrate {
+  BITRATE_64
+  BITRATE_96
+  BITRATE_128
+  BITRATE_192
+  BITRATE_256
+  BITRATE_320
+}
+
+enum EmotionType {
+  HAPPINESS
+  SADNESS
+  ANGER
+  FEAR
+  SURPRISE
+  DISGUST
+  EXCITEMENT
+  CALMNESS
+  CURIOSITY
+  SADNESS_FEAR
+}
+
+enum EmotionStrength {
+  LOWEST
+  LOW
+  MEDIUM
+  HIGH
+  HIGHEST
+}
+
+enum ModelVersion {
+  SONIC
+  SONIC_2
+  SONIC_TURBO
+  INK_WHISPER
+  INK_STANDARD
+}
+
+enum ModelCapability {
+  TEXT_TO_SPEECH
+  SPEECH_TO_TEXT
+  VOICE_CLONING
+  STREAMING
+  EMOTION_CONTROL
+  MULTILINGUAL
+}
+
+enum JobStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum LanguageCode {
+  EN
+  ES
+  FR
+  DE
+  IT
+  PT
+  JA
+  KO
+  ZH
+  AR
+  HI
+  RU
+  NL
+  PL
+  SV
+  NO
+  DA
+  FI
+  TR
+  CS
+  SK
+  HU
+  RO
+  UK
+  VI
+  TH
+  ID
+  MS
+  EL
+  HE
+  OTHER
+}
+
+enum WebhookEventType {
+  RENDER_COMPLETED
+  RENDER_FAILED
+  CLONE_COMPLETED
+  CLONE_FAILED
+  USAGE_THRESHOLD
+}
+
+# ----- Voice Types -----
+
+type VoiceId {
+  id: ID!
+  value: String!
+}
+
+type VoiceLanguage {
+  code: LanguageCode!
+  name: String!
+  nativeName: String
+  supported: Boolean!
+}
+
+type VoiceEmbedding {
+  values: [Float!]!
+  dimensions: Int!
+  model: String!
+}
+
+type VoiceDetails {
+  id: VoiceId!
+  name: String!
+  description: String
+  gender: VoiceGender
+  age: VoiceAge
+  accent: VoiceAccent
+  languages: [VoiceLanguage!]!
+  emotions: [VoiceEmotion!]!
+  isPublic: Boolean!
+  isCloned: Boolean!
+  embedding: VoiceEmbedding
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  tags: [String!]
+}
+
+type Voice {
+  id: ID!
+  name: String!
+  description: String
+  gender: VoiceGender
+  age: VoiceAge
+  accent: VoiceAccent
+  primaryLanguage: VoiceLanguage!
+  languages: [VoiceLanguage!]!
+  isPublic: Boolean!
+  isCloned: Boolean!
+  details: VoiceDetails
+  embedding: VoiceEmbedding
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type CustomVoice {
+  id: ID!
+  name: String!
+  description: String
+  baseVoice: Voice
+  embedding: VoiceEmbedding!
+  languages: [VoiceLanguage!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  ownerId: String!
+}
+
+# ----- Voice Clone Types -----
+
+type CloneDetails {
+  id: ID!
+  name: String!
+  source: CloneSource!
+  sourceUrl: URL
+  durationSeconds: Float
+  language: VoiceLanguage
+  enhance: Boolean!
+  status: CloneStatus!
+  errorMessage: String
+  createdAt: DateTime!
+  completedAt: DateTime
+}
+
+type VoiceClone {
+  id: ID!
+  name: String!
+  status: CloneStatus!
+  voice: Voice
+  details: CloneDetails!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# ----- Prosody / Output Control Types -----
+
+type Emotion {
+  type: EmotionType!
+  strength: EmotionStrength!
+}
+
+type OutputSpeed {
+  value: Float!
+  min: Float!
+  max: Float!
+}
+
+type PitchShift {
+  semitones: Float!
+  min: Float!
+  max: Float!
+}
+
+type SpeedChange {
+  factor: Float!
+  min: Float!
+  max: Float!
+}
+
+type VoiceContextDetails {
+  contextId: ID!
+  voiceId: ID!
+  previousText: String
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
+type VoiceContext {
+  id: ID!
+  voice: Voice!
+  details: VoiceContextDetails!
+  active: Boolean!
+}
+
+# ----- Audio Types -----
+
+type AudioOutput {
+  format: AudioFormat!
+  sampleRate: AudioSampleRate!
+  bitrate: AudioBitrate
+  durationMs: Int
+  sizeBytes: Int
+  url: URL
+  data: AudioBytes
+}
+
+type StreamingChunk {
+  chunkIndex: Int!
+  audioData: AudioBytes!
+  format: AudioFormat!
+  durationMs: Int!
+  isFinal: Boolean!
+  timestamp: DateTime!
+}
+
+type StreamingOutput {
+  streamId: ID!
+  voiceId: ID!
+  format: AudioFormat!
+  sampleRate: AudioSampleRate!
+  chunks: [StreamingChunk!]!
+  totalChunks: Int
+  completed: Boolean!
+  startedAt: DateTime!
+  completedAt: DateTime
+}
+
+# ----- TTS Types -----
+
+type TTSDetails {
+  requestId: ID!
+  voiceId: ID!
+  modelVersion: ModelVersion!
+  language: LanguageCode!
+  textLength: Int!
+  durationMs: Int
+  timeToFirstByteMs: Int
+  emotions: [Emotion!]
+  speed: VoiceSpeed
+  outputSpeed: OutputSpeed
+  pitchShift: PitchShift
+  context: VoiceContext
+}
+
+type TTSRequest {
+  id: ID!
+  text: String!
+  voice: Voice!
+  model: Model!
+  language: LanguageCode!
+  outputFormat: AudioFormat!
+  sampleRate: AudioSampleRate!
+  bitrate: AudioBitrate
+  emotions: [Emotion!]
+  speed: VoiceSpeed
+  outputSpeed: OutputSpeed
+  pitchShift: PitchShift
+  contextId: ID
+  streamingMode: Boolean!
+  createdAt: DateTime!
+}
+
+type TextToSpeech {
+  id: ID!
+  request: TTSRequest!
+  details: TTSDetails!
+  audio: AudioOutput
+  streaming: StreamingOutput
+  status: JobStatus!
+  createdAt: DateTime!
+  completedAt: DateTime
+}
+
+# ----- STT / Transcript Types -----
+
+type TranscriptWord {
+  word: String!
+  startMs: Int!
+  endMs: Int!
+  confidence: Float!
+}
+
+type TranscriptSentence {
+  text: String!
+  startMs: Int!
+  endMs: Int!
+  confidence: Float!
+  words: [TranscriptWord!]!
+  isFinal: Boolean!
+  speakerId: String
+}
+
+type Transcript {
+  id: ID!
+  text: String!
+  language: LanguageCode
+  durationMs: Int!
+  sentences: [TranscriptSentence!]!
+  words: [TranscriptWord!]!
+  confidence: Float
+  model: Model!
+  createdAt: DateTime!
+}
+
+# ----- Model Types -----
+
+type ModelDetails {
+  version: ModelVersion!
+  releaseDate: DateTime
+  deprecatedAt: DateTime
+  contextWindowTokens: Int
+  maxInputCharacters: Int
+  supportedLanguages: [LanguageCode!]!
+  timeToFirstByteMs: Int
+}
+
+type Model {
+  id: ID!
+  name: String!
+  description: String
+  version: ModelVersion!
+  capabilities: [ModelCapability!]!
+  details: ModelDetails!
+  isActive: Boolean!
+  isDefault: Boolean!
+}
+
+# ----- Render Types -----
+
+type RenderDetails {
+  jobId: ID!
+  modelVersion: ModelVersion!
+  voiceId: ID!
+  inputCharacters: Int!
+  outputDurationMs: Int
+  processingTimeMs: Int
+  timeToFirstByteMs: Int
+}
+
+type RenderJob {
+  id: ID!
+  status: JobStatus!
+  request: TTSRequest
+  details: RenderDetails
+  audio: AudioOutput
+  errorMessage: String
+  createdAt: DateTime!
+  startedAt: DateTime
+  completedAt: DateTime
+  queuePosition: Int
+}
+
+type Render {
+  job: RenderJob!
+  voice: Voice!
+  model: Model!
+  audio: AudioOutput
+  streaming: StreamingOutput
+}
+
+# ----- Usage Types -----
+
+type UsageDetails {
+  periodStart: DateTime!
+  periodEnd: DateTime!
+  ttsCharacters: Int!
+  ttsAudioMinutes: Float!
+  sttAudioMinutes: Float!
+  cloneCount: Int!
+  renderCount: Int!
+  ttsCharacterLimit: Int
+  sttMinuteLimit: Float
+  cloneLimit: Int
+}
+
+type Usage {
+  id: ID!
+  apiKeyId: ID!
+  details: UsageDetails!
+  updatedAt: DateTime!
+}
+
+# ----- Auth Types -----
+
+type APIKey {
+  id: ID!
+  name: String!
+  prefix: String!
+  createdAt: DateTime!
+  lastUsedAt: DateTime
+  expiresAt: DateTime
+  isActive: Boolean!
+  scopes: [String!]!
+}
+
+type Token {
+  value: String!
+  expiresAt: DateTime!
+  scopes: [String!]!
+}
+
+# ----- Rate Limit Types -----
+
+type RateLimitInfo {
+  limit: Int!
+  remaining: Int!
+  resetAt: DateTime!
+  retryAfterSeconds: Int
+}
+
+# ----- Error Types -----
+
+type Error {
+  code: String!
+  message: String!
+  details: JSON
+  requestId: ID
+  rateLimit: RateLimitInfo
+  timestamp: DateTime!
+}
+
+# ----- Webhook Types -----
+
+type Webhook {
+  id: ID!
+  url: URL!
+  events: [WebhookEventType!]!
+  secret: String
+  isActive: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  lastTriggeredAt: DateTime
+  failureCount: Int!
+}
+
+# ----- Connection / Pagination -----
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type VoiceEdge {
+  cursor: String!
+  node: Voice!
+}
+
+type VoiceConnection {
+  edges: [VoiceEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type RenderJobEdge {
+  cursor: String!
+  node: RenderJob!
+}
+
+type RenderJobConnection {
+  edges: [RenderJobEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+# ----- Input Types -----
+
+input VoiceFilterInput {
+  gender: VoiceGender
+  age: VoiceAge
+  accent: VoiceAccent
+  language: LanguageCode
+  emotion: VoiceEmotion
+  isPublic: Boolean
+  isCloned: Boolean
+  search: String
+}
+
+input EmotionInput {
+  type: EmotionType!
+  strength: EmotionStrength!
+}
+
+input TTSRequestInput {
+  text: String!
+  voiceId: ID!
+  modelVersion: ModelVersion
+  language: LanguageCode
+  outputFormat: AudioFormat
+  sampleRate: AudioSampleRate
+  bitrate: AudioBitrate
+  emotions: [EmotionInput!]
+  speed: VoiceSpeed
+  outputSpeedFactor: Float
+  pitchShiftSemitones: Float
+  contextId: ID
+  streamingMode: Boolean
+}
+
+input VoiceCloneInput {
+  name: String!
+  description: String
+  source: CloneSource!
+  sourceUrl: URL
+  language: LanguageCode
+  enhance: Boolean
+}
+
+input CreateWebhookInput {
+  url: URL!
+  events: [WebhookEventType!]!
+  secret: String
+}
+
+input UpdateWebhookInput {
+  url: URL
+  events: [WebhookEventType!]
+  isActive: Boolean
+}
+
+# ----- Root Types -----
+
+type Query {
+  # Voice Library
+  voice(id: ID!): Voice
+  voices(filter: VoiceFilterInput, first: Int, after: String): VoiceConnection!
+  customVoice(id: ID!): CustomVoice
+  customVoices(first: Int, after: String): [CustomVoice!]!
+
+  # Voice Clone
+  voiceClone(id: ID!): VoiceClone
+  voiceClones(first: Int, after: String): [VoiceClone!]!
+
+  # TTS
+  textToSpeech(id: ID!): TextToSpeech
+
+  # Transcripts (STT)
+  transcript(id: ID!): Transcript
+
+  # Render Jobs
+  renderJob(id: ID!): RenderJob
+  renderJobs(status: JobStatus, first: Int, after: String): RenderJobConnection!
+
+  # Models
+  model(id: ID!): Model
+  models(capability: ModelCapability): [Model!]!
+
+  # Context
+  voiceContext(id: ID!): VoiceContext
+
+  # Usage
+  usage(apiKeyId: ID, periodStart: DateTime, periodEnd: DateTime): Usage
+
+  # Auth
+  apiKeys: [APIKey!]!
+  apiKey(id: ID!): APIKey
+
+  # Webhooks
+  webhook(id: ID!): Webhook
+  webhooks: [Webhook!]!
+
+  # Rate Limits
+  rateLimitInfo: RateLimitInfo
+}
+
+type Mutation {
+  # TTS
+  synthesizeSpeech(input: TTSRequestInput!): TextToSpeech!
+  createRenderJob(input: TTSRequestInput!): RenderJob!
+  cancelRenderJob(id: ID!): RenderJob!
+
+  # Voice Clone
+  createVoiceClone(input: VoiceCloneInput!): VoiceClone!
+  deleteVoiceClone(id: ID!): Boolean!
+
+  # Voice Context
+  createVoiceContext(voiceId: ID!, previousText: String): VoiceContext!
+  deleteVoiceContext(id: ID!): Boolean!
+
+  # Auth
+  createAPIKey(name: String!, scopes: [String!]): APIKey!
+  revokeAPIKey(id: ID!): Boolean!
+  createToken(apiKeyId: ID!, expiresInSeconds: Int): Token!
+
+  # Webhooks
+  createWebhook(input: CreateWebhookInput!): Webhook!
+  updateWebhook(id: ID!, input: UpdateWebhookInput!): Webhook!
+  deleteWebhook(id: ID!): Boolean!
+}
+
+type Subscription {
+  # Streaming TTS audio chunks
+  speechStream(requestInput: TTSRequestInput!): StreamingChunk!
+
+  # Streaming STT transcript events
+  transcriptStream(sessionId: ID!): TranscriptSentence!
+
+  # Render job status updates
+  renderJobStatus(jobId: ID!): RenderJob!
+
+  # Clone lifecycle events
+  voiceCloneStatus(cloneId: ID!): VoiceClone!
+}

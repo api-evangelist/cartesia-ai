@@ -2,12 +2,11 @@ aid: cartesia-ai
 url: https://raw.githubusercontent.com/api-evangelist/cartesia-ai/refs/heads/main/apis.yml
 name: Cartesia
 kind: company
-description: Cartesia builds real-time voice AI - the Sonic family of text-to-speech
-  models, Ink speech-to-text models, and a Voice Agents platform for building and
-  deploying telephone and web voice agents. The core generation surface is exposed
-  both as REST (bytes and Server-Sent Events) and as a low-latency, bidirectional
-  WebSocket protocol at wss://api.cartesia.ai for streaming TTS and STT with
-  multiplexed contexts, word/phoneme timestamps, and mid-stream flush and cancel.
+description: Cartesia builds real-time voice AI - the Sonic family of text-to-speech models, Ink speech-to-text
+  models, and a Voice Agents platform for building and deploying telephone and web voice agents. The core
+  generation surface is exposed both as REST (bytes and Server-Sent Events) and as a low-latency, bidirectional
+  WebSocket protocol at wss://api.cartesia.ai for streaming TTS and STT with multiplexed contexts, word/phoneme
+  timestamps, and mid-stream flush and cancel.
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -32,7 +31,7 @@ tags:
 - Voice Cloning
 - Voice Agents
 created: '2026-07-02'
-modified: '2026-07-02'
+modified: '2026-08-08'
 specificationVersion: '0.19'
 apis:
 - aid: cartesia-ai:cartesia-ai-tts-websocket-api
@@ -50,12 +49,11 @@ apis:
     type: Documentation
   - url: asyncapi/cartesia-ai-asyncapi.yml
     type: AsyncAPI
-  description: >-
-    Bidirectional, multiplexed WebSocket at wss://api.cartesia.ai/tts/websocket for realtime speech generation.
-    Clients send JSON generation requests keyed by a context_id (continuing a context preserves prosody
-    across chunks of transcript) and receive base64-encoded audio chunks, optional word and phoneme timestamps,
-    flush acknowledgements, and a final done message. A single connection scales to dozens of concurrent
-    generation contexts.
+  description: Bidirectional, multiplexed WebSocket at wss://api.cartesia.ai/tts/websocket for realtime
+    speech generation. Clients send JSON generation requests keyed by a context_id (continuing a context
+    preserves prosody across chunks of transcript) and receive base64-encoded audio chunks, optional word
+    and phoneme timestamps, flush acknowledgements, and a final done message. A single connection scales
+    to dozens of concurrent generation contexts.
 - aid: cartesia-ai:cartesia-ai-stt-websocket-api
   name: Cartesia STT WebSocket API
   tags:
@@ -73,11 +71,10 @@ apis:
     type: APIReference
   - url: asyncapi/cartesia-ai-asyncapi.yml
     type: AsyncAPI
-  description: >-
-    Realtime transcription over WebSocket at wss://api.cartesia.ai/stt/websocket. Clients stream raw binary
-    audio in 100ms chunks and issue finalize/close text commands; the server returns incremental and final
-    transcript messages with word-level timing. A companion "Auto" variant at /stt/turns/websocket adds
-    built-in turn detection for conversational agents.
+  description: Realtime transcription over WebSocket at wss://api.cartesia.ai/stt/websocket. Clients stream
+    raw binary audio in 100ms chunks and issue finalize/close text commands; the server returns incremental
+    and final transcript messages with word-level timing. A companion "Auto" variant at /stt/turns/websocket
+    adds built-in turn detection for conversational agents.
 - aid: cartesia-ai:cartesia-ai-agents-api
   name: Cartesia Agents API
   description: Voice agent configuration and public templates.
@@ -823,6 +820,20 @@ common:
   url: rate-limits/cartesia-ai-rate-limits.yml
 - type: FinOps
   url: finops/cartesia-ai-finops.yml
+- type: Pricing
+  url: https://cartesia.ai/pricing
+- type: TermsOfService
+  url: https://cartesia.ai/legal/terms-of-service
+- type: PrivacyPolicy
+  url: https://cartesia.ai/legal/privacy-policy
+- type: Discord
+  url: https://discord.gg/cartesia
+- type: X
+  url: https://x.com/cartesia_ai
+- type: LlmsText
+  url: https://docs.cartesia.ai/llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-merged-from:
+- cartesia

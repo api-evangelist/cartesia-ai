@@ -1,0 +1,72 @@
+openapi: 3.1.0
+info:
+  title: Cartesia Auth STT API
+  description: Cartesia is a real-time multimodal AI platform built around the Sonic text-to-speech and Ink streaming speech-to-text models. The REST API supports synchronous and streaming generation, voice management, voice cloning, and access-token issuance.
+  version: '2024-11-13'
+  contact:
+    name: Cartesia
+    url: https://docs.cartesia.ai
+servers:
+- url: https://api.cartesia.ai
+  description: Production
+security:
+- ApiKeyAuth: []
+- BearerAuth: []
+tags:
+- name: STT
+paths:
+  /stt/transcribe:
+    post:
+      tags:
+      - STT
+      summary: Batch transcribe audio with the Ink model
+      operationId: sttTranscribe
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              - model
+              properties:
+                file:
+                  type: string
+                  format: binary
+                model:
+                  type: string
+                language:
+                  type: string
+                timestamp_granularities:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Transcript
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  parameters:
+    CartesiaVersion:
+      in: header
+      name: Cartesia-Version
+      required: true
+      schema:
+        type: string
+        example: '2024-11-13'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Cartesia API key (sk_car_...)
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Short-lived client access token

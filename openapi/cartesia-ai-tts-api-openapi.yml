@@ -1,0 +1,134 @@
+openapi: 3.1.0
+info:
+  title: Cartesia Auth TTS API
+  description: Cartesia is a real-time multimodal AI platform built around the Sonic text-to-speech and Ink streaming speech-to-text models. The REST API supports synchronous and streaming generation, voice management, voice cloning, and access-token issuance.
+  version: '2024-11-13'
+  contact:
+    name: Cartesia
+    url: https://docs.cartesia.ai
+servers:
+- url: https://api.cartesia.ai
+  description: Production
+security:
+- ApiKeyAuth: []
+- BearerAuth: []
+tags:
+- name: TTS
+paths:
+  /tts/bytes:
+    post:
+      tags:
+      - TTS
+      summary: Generate speech audio as bytes
+      operationId: ttsBytes
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TtsRequest'
+      responses:
+        '200':
+          description: Binary audio bytes
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /tts/sse:
+    post:
+      tags:
+      - TTS
+      summary: Generate speech audio as a Server-Sent Events stream
+      operationId: ttsSse
+      parameters:
+      - $ref: '#/components/parameters/CartesiaVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TtsRequest'
+      responses:
+        '200':
+          description: SSE stream of audio chunks
+          content:
+            text/event-stream:
+              schema:
+                type: string
+components:
+  schemas:
+    TtsRequest:
+      type: object
+      required:
+      - model_id
+      - transcript
+      - voice
+      - output_format
+      properties:
+        model_id:
+          type: string
+          example: sonic-2
+        transcript:
+          type: string
+        voice:
+          type: object
+          properties:
+            mode:
+              type: string
+              enum:
+              - id
+              - embedding
+            id:
+              type: string
+            embedding:
+              type: array
+              items:
+                type: number
+        language:
+          type: string
+        output_format:
+          type: object
+          properties:
+            container:
+              type: string
+              enum:
+              - raw
+              - wav
+              - mp3
+            sample_rate:
+              type: integer
+            encoding:
+              type: string
+        speed:
+          type: number
+        duration:
+          type: number
+  parameters:
+    CartesiaVersion:
+      in: header
+      name: Cartesia-Version
+      required: true
+      schema:
+        type: string
+        example: '2024-11-13'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Cartesia API key (sk_car_...)
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Short-lived client access token
