@@ -1,0 +1,232 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cartesia Agents Datasets API",
+    "version": "2026-03-01"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Datasets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Datasets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/datasets",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "List Datasets"
+        },
+        {
+          "info": {
+            "name": "Create Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/datasets/",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create Dataset"
+        },
+        {
+          "info": {
+            "name": "Get Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/datasets/:id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the dataset."
+              }
+            ]
+          },
+          "docs": "Get Dataset"
+        },
+        {
+          "info": {
+            "name": "Update Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.cartesia.ai/datasets/:id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the dataset."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Dataset"
+        },
+        {
+          "info": {
+            "name": "Delete Dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.cartesia.ai/datasets/:id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the dataset."
+              }
+            ]
+          },
+          "docs": "Delete Dataset"
+        },
+        {
+          "info": {
+            "name": "List files in a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/datasets/:id/files",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the dataset."
+              }
+            ]
+          },
+          "docs": "List files in a dataset"
+        },
+        {
+          "info": {
+            "name": "Upload a file to a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/datasets/:id/files",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the dataset."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Upload a file to a dataset"
+        },
+        {
+          "info": {
+            "name": "Remove a file from a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.cartesia.ai/datasets/:id/files/:file_id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the dataset."
+              },
+              {
+                "name": "file_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the dataset file."
+              }
+            ]
+          },
+          "docs": "Remove a file from a dataset"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

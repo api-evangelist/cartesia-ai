@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cartesia Agents Usage API",
+    "version": "2026-03-01"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Usage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Credit Usage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/usage/credits",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns your credit usage over time, bucketed by the requested interval."
+        },
+        {
+          "info": {
+            "name": "Get Agent Usage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/usage/agents",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "interval",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns your agent usage over time, bucketed by the requested interval."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

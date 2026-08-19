@@ -1,0 +1,269 @@
+{
+  "item": [
+    {
+      "id": "c611f554-605a-4715-837d-c7707ba368a8",
+      "name": "TTS",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a6b7c95e-e5e7-4c40-9d79-5f82f11f27fd",
+          "name": "Generate speech audio as bytes",
+          "request": {
+            "name": "Generate speech audio as bytes",
+            "description": {},
+            "url": {
+              "path": [
+                "tts",
+                "bytes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Cartesia-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/wav"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<string>\",\n    \"embedding\": [\n      \"<number>\",\n      \"<number>\"\n    ]\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\"\n  },\n  \"language\": \"<string>\",\n  \"speed\": \"<number>\",\n  \"duration\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "32f542e0-bc4f-4150-a30f-30180be02797",
+              "name": "Binary audio bytes",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tts",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Cartesia-Version",
+                    "value": "2024-11-13"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/wav"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model_id\": \"sonic-2\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<string>\",\n    \"embedding\": [\n      \"<number>\",\n      \"<number>\"\n    ]\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\"\n  },\n  \"language\": \"<string>\",\n  \"speed\": \"<number>\",\n  \"duration\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/wav"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1ff808c2-1b4e-4c29-8cf7-7fe4c67208eb",
+          "name": "Generate speech audio as a Server-Sent Events stream",
+          "request": {
+            "name": "Generate speech audio as a Server-Sent Events stream",
+            "description": {},
+            "url": {
+              "path": [
+                "tts",
+                "sse"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Cartesia-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<string>\",\n    \"embedding\": [\n      \"<number>\",\n      \"<number>\"\n    ]\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\"\n  },\n  \"language\": \"<string>\",\n  \"speed\": \"<number>\",\n  \"duration\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6b32c0c0-6d2f-4f65-81d9-a08d6cb0d06f",
+              "name": "SSE stream of audio chunks",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tts",
+                    "sse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Cartesia-Version",
+                    "value": "2024-11-13"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model_id\": \"sonic-2\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<string>\",\n    \"embedding\": [\n      \"<number>\",\n      \"<number>\"\n    ]\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\"\n  },\n  \"language\": \"<string>\",\n  \"speed\": \"<number>\",\n  \"duration\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.cartesia.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "25a1abe4-d827-44d1-aa46-5dd357a8dc10",
+    "name": "Cartesia Auth TTS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Cartesia is a real-time multimodal AI platform built around the Sonic text-to-speech and Ink streaming speech-to-text models. The REST API supports synchronous and streaming generation, voice management, voice cloning, and access-token issuance.\n\nContact Support:\n Name: Cartesia",
+      "type": "text/plain"
+    }
+  }
+}

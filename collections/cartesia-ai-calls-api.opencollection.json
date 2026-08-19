@@ -1,0 +1,300 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cartesia Agents Calls API",
+    "version": "2026-03-01"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Calls",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Calls",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/calls",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "List Calls"
+        },
+        {
+          "info": {
+            "name": "Create Outbound Call",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/calls/outbound",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create Outbound Call"
+        },
+        {
+          "info": {
+            "name": "Get Call",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/calls/:id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the call."
+              }
+            ]
+          },
+          "docs": "Get Call"
+        },
+        {
+          "info": {
+            "name": "Delete Call",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.cartesia.ai/calls/:id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the call."
+              }
+            ]
+          },
+          "docs": "Deletes the sensitive data for a call."
+        },
+        {
+          "info": {
+            "name": "Cancel Call",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/calls/:id/cancel",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the call."
+              }
+            ]
+          },
+          "docs": "Terminates an active call."
+        },
+        {
+          "info": {
+            "name": "Download Call Audio",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/calls/:id/audio",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the call."
+              }
+            ]
+          },
+          "docs": "Download Call Audio"
+        },
+        {
+          "info": {
+            "name": "Get Call Runtime Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/calls/:id/logs",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the call."
+              }
+            ]
+          },
+          "docs": "Get Call Runtime Logs"
+        },
+        {
+          "info": {
+            "name": "List Call Batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/call-batches",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "List Call Batches"
+        },
+        {
+          "info": {
+            "name": "Create Call Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/call-batches",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Queues a batch of outbound calls."
+        },
+        {
+          "info": {
+            "name": "Get Call Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cartesia.ai/call-batches/:id",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the call batch."
+              }
+            ]
+          },
+          "docs": "Get Call Batch"
+        },
+        {
+          "info": {
+            "name": "Cancel Call Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/call-batches/:id/cancel",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the call batch."
+              }
+            ]
+          },
+          "docs": "Stops dialing the batch's queued calls."
+        },
+        {
+          "info": {
+            "name": "Retry Call Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/call-batches/:id/retry",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the call batch."
+              }
+            ]
+          },
+          "docs": "Re-queues the batch's recipients whose latest call attempt failed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

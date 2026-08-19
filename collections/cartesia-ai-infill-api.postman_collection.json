@@ -1,0 +1,582 @@
+{
+  "item": [
+    {
+      "id": "472e58de-4e70-48f2-8040-b541f193caf1",
+      "name": "Infill",
+      "description": {
+        "content": "Generate audio that smoothly connects two existing audio segments.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b89d0f89-21af-4482-9bbd-b963952e1e63",
+          "name": "Infill (Bytes)",
+          "request": {
+            "name": "Infill (Bytes)",
+            "description": {
+              "content": "Generates audio that smoothly connects two existing audio segments. At least one of left_audio or right_audio must be provided.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "infill",
+                "bytes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API version date, e.g. 2026-03-01.",
+                "key": "Cartesia-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/*"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "transcript",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Text to generate between the two audio segments."
+                },
+                {
+                  "key": "left_audio",
+                  "type": "file",
+                  "description": "Audio preceding the infill text."
+                },
+                {
+                  "key": "right_audio",
+                  "type": "file",
+                  "description": "Audio following the infill text."
+                },
+                {
+                  "key": "model_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": " (This can only be one of sonic-3,sonic-3-2026-01-12,sonic-3-2025-10-27)"
+                },
+                {
+                  "key": "voice_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": ""
+                },
+                {
+                  "key": "language",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": ""
+                },
+                {
+                  "key": "output_format[container]",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": " (This can only be one of raw,wav,mp3)"
+                },
+                {
+                  "key": "output_format[sample_rate]",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": " (This can only be one of 8000,16000,22050,24000,44100,48000)"
+                },
+                {
+                  "key": "output_format[encoding]",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)"
+                },
+                {
+                  "key": "output_format[bit_rate]",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": " (This can only be one of 32000,64000,96000,128000,192000)"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8b29851e-f170-484f-a8b0-11cde4804201",
+              "name": "Infilled audio.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "infill",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Text to generate between the two audio segments.",
+                        "type": "text/plain"
+                      },
+                      "key": "transcript",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Audio preceding the infill text.",
+                        "type": "text/plain"
+                      },
+                      "key": "left_audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Audio following the infill text.",
+                        "type": "text/plain"
+                      },
+                      "key": "right_audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of sonic-3,sonic-3-2026-01-12,sonic-3-2025-10-27)",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "language",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of raw,wav,mp3)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[container]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 8000,16000,22050,24000,44100,48000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[sample_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[encoding]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 32000,64000,96000,128000,192000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[bit_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/*"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8c7f63f1-e7ca-4b17-9032-6ef81c1c96e5",
+              "name": "Missing, invalid, or expired API key / access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "infill",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Text to generate between the two audio segments.",
+                        "type": "text/plain"
+                      },
+                      "key": "transcript",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Audio preceding the infill text.",
+                        "type": "text/plain"
+                      },
+                      "key": "left_audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Audio following the infill text.",
+                        "type": "text/plain"
+                      },
+                      "key": "right_audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of sonic-3,sonic-3-2026-01-12,sonic-3-2025-10-27)",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "language",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of raw,wav,mp3)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[container]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 8000,16000,22050,24000,44100,48000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[sample_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[encoding]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 32000,64000,96000,128000,192000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[bit_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 4100,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d28280f0-0c9d-40cf-877f-793314d5049c",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "infill",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Text to generate between the two audio segments.",
+                        "type": "text/plain"
+                      },
+                      "key": "transcript",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Audio preceding the infill text.",
+                        "type": "text/plain"
+                      },
+                      "key": "left_audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Audio following the infill text.",
+                        "type": "text/plain"
+                      },
+                      "key": "right_audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of sonic-3,sonic-3-2026-01-12,sonic-3-2025-10-27)",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "language",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of raw,wav,mp3)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[container]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 8000,16000,22050,24000,44100,48000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[sample_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[encoding]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 32000,64000,96000,128000,192000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[bit_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 4100,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.cartesia.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f68cd685-fdaf-474f-8090-9f7ca3d6fff4",
+    "name": "Cartesia Agents Infill API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.\n\nContact Support:\n Name: Cartesia",
+      "type": "text/plain"
+    }
+  }
+}

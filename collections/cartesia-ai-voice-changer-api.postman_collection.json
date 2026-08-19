@@ -1,0 +1,862 @@
+{
+  "item": [
+    {
+      "id": "f15a2771-fddb-419a-a4e0-5156e235f5db",
+      "name": "Voice Changer",
+      "description": {
+        "content": "Transform speech into a different target voice.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f5cfc4c4-63bf-4e43-8023-4c1a09eb4c49",
+          "name": "Voice Changer (Bytes)",
+          "request": {
+            "name": "Voice Changer (Bytes)",
+            "description": {
+              "content": "Transforms an uploaded speech recording into a different target voice, returning raw audio bytes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "voice-changer",
+                "bytes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API version date, e.g. 2026-03-01.",
+                "key": "Cartesia-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/*"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "clip",
+                  "type": "file",
+                  "description": "(Required) Source speech recording to transform."
+                },
+                {
+                  "key": "voice_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "output_format[container]",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required)  (This can only be one of raw,wav,mp3)"
+                },
+                {
+                  "key": "output_format[sample_rate]",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": "(Required)  (This can only be one of 8000,16000,22050,24000,44100,48000)"
+                },
+                {
+                  "key": "output_format[encoding]",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)"
+                },
+                {
+                  "key": "output_format[bit_rate]",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": " (This can only be one of 32000,64000,96000,128000,192000)"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0510ae16-997b-43c6-aaf1-3dca9444c8d5",
+              "name": "Transformed audio.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voice-changer",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Source speech recording to transform.",
+                        "type": "text/plain"
+                      },
+                      "key": "clip",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of raw,wav,mp3)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[container]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of 8000,16000,22050,24000,44100,48000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[sample_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[encoding]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 32000,64000,96000,128000,192000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[bit_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/*"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a0c28e0b-f2ae-45b6-a472-40108e1de133",
+              "name": "Missing, invalid, or expired API key / access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voice-changer",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Source speech recording to transform.",
+                        "type": "text/plain"
+                      },
+                      "key": "clip",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of raw,wav,mp3)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[container]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of 8000,16000,22050,24000,44100,48000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[sample_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[encoding]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 32000,64000,96000,128000,192000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[bit_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 7148,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5d199c2-0fd0-43af-a52a-b877dfc3198e",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voice-changer",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Source speech recording to transform.",
+                        "type": "text/plain"
+                      },
+                      "key": "clip",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of raw,wav,mp3)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[container]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of 8000,16000,22050,24000,44100,48000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[sample_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[encoding]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 32000,64000,96000,128000,192000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[bit_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 7148,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9a528303-d9d2-4e41-a87d-d81b52f3f20c",
+          "name": "Voice Changer (SSE)",
+          "request": {
+            "name": "Voice Changer (SSE)",
+            "description": {
+              "content": "Transforms an uploaded speech recording into a different target voice, streamed as Server-Sent Events.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "voice-changer",
+                "sse"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API version date, e.g. 2026-03-01.",
+                "key": "Cartesia-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "clip",
+                  "value": "<binary>",
+                  "type": "text",
+                  "description": "(Required) Source speech recording to transform."
+                },
+                {
+                  "key": "voice_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "output_format[container]",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required)  (This can only be one of raw,wav,mp3)"
+                },
+                {
+                  "key": "output_format[sample_rate]",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": "(Required)  (This can only be one of 8000,16000,22050,24000,44100,48000)"
+                },
+                {
+                  "key": "output_format[encoding]",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)"
+                },
+                {
+                  "key": "output_format[bit_rate]",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": " (This can only be one of 32000,64000,96000,128000,192000)"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "df2782b2-2da0-4369-a0bc-095d7e60a92e",
+              "name": "Server-Sent Events stream of transformed audio chunks.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voice-changer",
+                    "sse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Source speech recording to transform.",
+                        "type": "text/plain"
+                      },
+                      "key": "clip",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of raw,wav,mp3)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[container]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of 8000,16000,22050,24000,44100,48000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[sample_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[encoding]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 32000,64000,96000,128000,192000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[bit_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8e8d81b4-8c3f-48b3-973b-50dbe58a3a6f",
+              "name": "Missing, invalid, or expired API key / access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voice-changer",
+                    "sse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Source speech recording to transform.",
+                        "type": "text/plain"
+                      },
+                      "key": "clip",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of raw,wav,mp3)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[container]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of 8000,16000,22050,24000,44100,48000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[sample_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[encoding]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 32000,64000,96000,128000,192000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[bit_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 7148,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8fc8e286-9123-4bfc-a6a6-4d24f8aff24f",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voice-changer",
+                    "sse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Source speech recording to transform.",
+                        "type": "text/plain"
+                      },
+                      "key": "clip",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of raw,wav,mp3)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[container]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required)  (This can only be one of 8000,16000,22050,24000,44100,48000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[sample_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of pcm_f32le,pcm_s16le,pcm_mulaw,pcm_alaw)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[encoding]",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": " (This can only be one of 32000,64000,96000,128000,192000)",
+                        "type": "text/plain"
+                      },
+                      "key": "output_format[bit_rate]",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 7148,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.cartesia.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b1d53adc-7e93-4048-9b3d-92c532f52512",
+    "name": "Cartesia Agents Voice Changer API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.\n\nContact Support:\n Name: Cartesia",
+      "type": "text/plain"
+    }
+  }
+}

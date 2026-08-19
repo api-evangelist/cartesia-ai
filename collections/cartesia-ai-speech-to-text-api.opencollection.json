@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cartesia Agents Speech-to-Text API",
+    "version": "2026-03-01"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Speech-to-Text",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Batch Speech-to-Text",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/stt",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "encoding",
+                "value": "",
+                "type": "query",
+                "description": "PCM encoding, required only when uploading raw headerless PCM."
+              },
+              {
+                "name": "sample_rate",
+                "value": "",
+                "type": "query",
+                "description": "Sample rate in Hz, required only when uploading raw headerless PCM."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "model",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "language",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "timestamp_granularities[]",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Transcribes an audio file of any length using the ink-whisper model."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

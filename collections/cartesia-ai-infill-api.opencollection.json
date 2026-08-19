@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cartesia Agents Infill API",
+    "version": "2026-03-01"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Infill",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Infill (Bytes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/infill/bytes",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "left_audio",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "right_audio",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "transcript",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "model_id",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "voice_id",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "language",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "output_format[container]",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "output_format[sample_rate]",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "output_format[encoding]",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "output_format[bit_rate]",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Generates audio that smoothly connects two existing audio segments. At least one of left_audio or right_audio must be provided."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

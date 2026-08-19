@@ -1,0 +1,499 @@
+{
+  "item": [
+    {
+      "id": "6293cb0f-c1b8-43e1-a7d6-a31b54c2d55c",
+      "name": "Text-to-Speech",
+      "description": {
+        "content": "Single-shot and streamed speech generation over plain HTTP.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fe6f3705-45da-4706-bb4c-f2701ae29c41",
+          "name": "Text-to-Speech (Bytes)",
+          "request": {
+            "name": "Text-to-Speech (Bytes)",
+            "description": {
+              "content": "Synthesizes a complete transcript and returns raw audio bytes in a single response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tts",
+                "bytes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API version date, e.g. 2026-03-01.",
+                "key": "Cartesia-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/*"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\",\n    \"bit_rate\": \"<integer>\"\n  },\n  \"language\": \"<string>\",\n  \"pronunciation_dict_id\": \"<string>\",\n  \"generation_config\": {\n    \"volume\": 1,\n    \"speed\": 1,\n    \"emotion\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b12f7d3d-6425-4b92-b7a7-0d24f728f006",
+              "name": "Synthesized audio.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tts",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\",\n    \"bit_rate\": \"<integer>\"\n  },\n  \"language\": \"<string>\",\n  \"pronunciation_dict_id\": \"<string>\",\n  \"generation_config\": {\n    \"volume\": 1,\n    \"speed\": 1,\n    \"emotion\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/*"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4ee0df29-4ad1-4d30-a720-581562c2fc0a",
+              "name": "Missing, invalid, or expired API key / access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tts",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\",\n    \"bit_rate\": \"<integer>\"\n  },\n  \"language\": \"<string>\",\n  \"pronunciation_dict_id\": \"<string>\",\n  \"generation_config\": {\n    \"volume\": 1,\n    \"speed\": 1,\n    \"emotion\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 8487,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfc8daba-7f3f-4ee7-ae3d-cf5984663010",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tts",
+                    "bytes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\",\n    \"bit_rate\": \"<integer>\"\n  },\n  \"language\": \"<string>\",\n  \"pronunciation_dict_id\": \"<string>\",\n  \"generation_config\": {\n    \"volume\": 1,\n    \"speed\": 1,\n    \"emotion\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 8487,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4fb172ba-6e85-4dff-9621-8f4299c94d6d",
+          "name": "Text-to-Speech (SSE)",
+          "request": {
+            "name": "Text-to-Speech (SSE)",
+            "description": {
+              "content": "Streams audio chunks with extra metadata (timestamps) from a complete transcript as Server-Sent Events.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tts",
+                "sse"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API version date, e.g. 2026-03-01.",
+                "key": "Cartesia-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\",\n    \"bit_rate\": \"<integer>\"\n  },\n  \"language\": \"<string>\",\n  \"pronunciation_dict_id\": \"<string>\",\n  \"generation_config\": {\n    \"volume\": 1,\n    \"speed\": 1,\n    \"emotion\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b959d61d-16ea-4edc-b60f-0b756fb86ee7",
+              "name": "Server-Sent Events stream of audio chunks and metadata.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tts",
+                    "sse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\",\n    \"bit_rate\": \"<integer>\"\n  },\n  \"language\": \"<string>\",\n  \"pronunciation_dict_id\": \"<string>\",\n  \"generation_config\": {\n    \"volume\": 1,\n    \"speed\": 1,\n    \"emotion\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7a0c0974-8df2-4dec-b0a6-d081a42f625b",
+              "name": "Missing, invalid, or expired API key / access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tts",
+                    "sse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\",\n    \"bit_rate\": \"<integer>\"\n  },\n  \"language\": \"<string>\",\n  \"pronunciation_dict_id\": \"<string>\",\n  \"generation_config\": {\n    \"volume\": 1,\n    \"speed\": 1,\n    \"emotion\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 8487,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e0f41e23-41c7-4908-a129-02f02253c990",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tts",
+                    "sse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API version date, e.g. 2026-03-01.",
+                    "key": "Cartesia-Version",
+                    "value": "2026-03-01"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model_id\": \"<string>\",\n  \"transcript\": \"<string>\",\n  \"voice\": {\n    \"mode\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"output_format\": {\n    \"container\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"encoding\": \"<string>\",\n    \"bit_rate\": \"<integer>\"\n  },\n  \"language\": \"<string>\",\n  \"pronunciation_dict_id\": \"<string>\",\n  \"generation_config\": {\n    \"volume\": 1,\n    \"speed\": 1,\n    \"emotion\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"message\": \"string\",\n  \"error_code\": \"string\",\n  \"status_code\": 8487,\n  \"doc_url\": \"string\",\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.cartesia.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4f890079-e7b6-49b6-b9ce-c13a4b102baf",
+    "name": "Cartesia Agents Text-to-Speech API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.\n\nContact Support:\n Name: Cartesia",
+      "type": "text/plain"
+    }
+  }
+}

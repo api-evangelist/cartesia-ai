@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cartesia Agents Voice Changer API",
+    "version": "2026-03-01"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Voice Changer",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Voice Changer (Bytes)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/voice-changer/bytes",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Transforms an uploaded speech recording into a different target voice, returning raw audio bytes."
+        },
+        {
+          "info": {
+            "name": "Voice Changer (SSE)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cartesia.ai/voice-changer/sse",
+            "headers": [
+              {
+                "name": "Cartesia-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Transforms an uploaded speech recording into a different target voice, streamed as Server-Sent Events."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
