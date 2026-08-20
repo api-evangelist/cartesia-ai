@@ -22,6 +22,15 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cartesia-ai.png
 tags:
+- Artificial Intelligence
+- Voice AI
+- Text-to-Speech
+- Speech-to-Text
+- Real-Time
+- WebSocket
+- Voice Cloning
+- Voice Agents
+tags_raw:
 - AI
 - Voice AI
 - Text to Speech
@@ -37,6 +46,11 @@ apis:
 - aid: cartesia-ai:cartesia-ai-tts-websocket-api
   name: Cartesia TTS WebSocket API
   tags:
+  - WebSocket
+  - Text-to-Speech
+  - Real-Time
+  - Streaming
+  tags_raw:
   - WebSocket
   - Text to Speech
   - Realtime
@@ -57,6 +71,11 @@ apis:
 - aid: cartesia-ai:cartesia-ai-stt-websocket-api
   name: Cartesia STT WebSocket API
   tags:
+  - WebSocket
+  - Speech-to-Text
+  - Real-Time
+  - Turn Detection
+  tags_raw:
   - WebSocket
   - Speech to Text
   - Realtime
@@ -119,6 +138,8 @@ apis:
   humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
   baseURL: https://api.cartesia.ai
   tags:
+  - APIKeys
+  tags_raw:
   - API Keys
   properties:
   - type: OpenAPI
@@ -157,6 +178,8 @@ apis:
   humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
   baseURL: https://api.cartesia.ai
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -271,6 +294,8 @@ apis:
   humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
   baseURL: https://api.cartesia.ai
   tags:
+  - Deployment
+  tags_raw:
   - Deployments
   properties:
   - type: OpenAPI
@@ -765,6 +790,8 @@ apis:
   humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
   baseURL: https://api.cartesia.ai
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
