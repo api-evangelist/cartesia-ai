@@ -63,11 +63,12 @@ apis:
     type: Documentation
   - url: asyncapi/cartesia-ai-asyncapi.yml
     type: AsyncAPI
-  description: Bidirectional, multiplexed WebSocket at wss://api.cartesia.ai/tts/websocket for realtime
-    speech generation. Clients send JSON generation requests keyed by a context_id (continuing a context
-    preserves prosody across chunks of transcript) and receive base64-encoded audio chunks, optional word
-    and phoneme timestamps, flush acknowledgements, and a final done message. A single connection scales
-    to dozens of concurrent generation contexts.
+  description: >-
+    Bidirectional, multiplexed WebSocket at wss://api.cartesia.ai/tts/websocket for realtime speech generation.
+    Clients send JSON generation requests keyed by a context_id (continuing a context preserves prosody
+    across chunks of transcript) and receive base64-encoded audio chunks, optional word and phoneme timestamps,
+    flush acknowledgements, and a final done message. A single connection scales to dozens of concurrent
+    generation contexts.
 - aid: cartesia-ai:cartesia-ai-stt-websocket-api
   name: Cartesia STT WebSocket API
   tags:
@@ -90,10 +91,11 @@ apis:
     type: APIReference
   - url: asyncapi/cartesia-ai-asyncapi.yml
     type: AsyncAPI
-  description: Realtime transcription over WebSocket at wss://api.cartesia.ai/stt/websocket. Clients stream
-    raw binary audio in 100ms chunks and issue finalize/close text commands; the server returns incremental
-    and final transcript messages with word-level timing. A companion "Auto" variant at /stt/turns/websocket
-    adds built-in turn detection for conversational agents.
+  description: >-
+    Realtime transcription over WebSocket at wss://api.cartesia.ai/stt/websocket. Clients stream raw binary
+    audio in 100ms chunks and issue finalize/close text commands; the server returns incremental and final
+    transcript messages with word-level timing. A companion "Auto" variant at /stt/turns/websocket adds
+    built-in turn detection for conversational agents.
 - aid: cartesia-ai:cartesia-ai-agents-api
   name: Cartesia Agents API
   description: Voice agent configuration and public templates.
@@ -824,6 +826,26 @@ apis:
     url: https://docs.cartesia.ai/api-reference/usage/credits
   - type: APIReference
     url: https://docs.cartesia.ai/api-reference/usage/agents
+- aid: cartesia-ai:cartesia-ai-stt-api
+  name: Cartesia STT API
+  description: The STT API from Cartesia — 1 operation(s) for stt.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/websocket
+  baseURL: wss://api.cartesia.ai
+  tags:
+  - STT
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-stt-api-openapi.yml
+- aid: cartesia-ai:cartesia-ai-tts-api
+  name: Cartesia TTS API
+  description: The TTS API from Cartesia — 2 operation(s) for tts.
+  humanURL: https://docs.cartesia.ai/api-reference/tts/websocket
+  baseURL: wss://api.cartesia.ai
+  tags:
+  - TTS
+  properties:
+  - type: OpenAPI
+    url: openapi/cartesia-ai-tts-api-openapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/cartesia-ai-agentic-access.yml
