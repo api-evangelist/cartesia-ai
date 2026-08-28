@@ -7,6 +7,18 @@ description: Cartesia builds real-time voice AI - the Sonic family of text-to-sp
   generation surface is exposed both as REST (bytes and Server-Sent Events) and as a low-latency, bidirectional
   WebSocket protocol at wss://api.cartesia.ai for streaming TTS and STT with multiplexed contexts, word/phoneme
   timestamps, and mid-stream flush and cancel.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
