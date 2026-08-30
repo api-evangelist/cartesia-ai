@@ -36,7 +36,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cartesia-a
 tags:
 - Artificial Intelligence
 - Voice AI
-- Text-to-Speech
+- Text to Speech
 - Speech-to-Text
 - Real-Time
 - WebSocket
@@ -59,7 +59,7 @@ apis:
   name: Cartesia TTS WebSocket API
   tags:
   - WebSocket
-  - Text-to-Speech
+  - Text to Speech
   - Real-Time
   - Streaming
   tags_raw:
