@@ -849,16 +849,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cartesia-ai-stt-api-openapi.yml
-- aid: cartesia-ai:cartesia-ai-tts-api
-  name: Cartesia TTS API
-  description: The TTS API from Cartesia — 2 operation(s) for tts.
-  humanURL: https://docs.cartesia.ai/api-reference/tts/websocket
-  baseURL: wss://api.cartesia.ai
-  tags:
-  - TTS
-  properties:
-  - type: OpenAPI
-    url: openapi/cartesia-ai-tts-api-openapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/cartesia-ai-agentic-access.yml
