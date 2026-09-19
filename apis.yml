@@ -767,6 +767,8 @@ apis:
   humanURL: https://docs.cartesia.ai/api-reference/tts/bytes
   baseURL: https://api.cartesia.ai
   tags:
+  - Voice
+  tags_raw:
   - Voices
   properties:
   - type: OpenAPI
