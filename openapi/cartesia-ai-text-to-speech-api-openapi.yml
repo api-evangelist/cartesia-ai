@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Cartesia Agents Text-to-Speech API
-  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  title: Cartesia Text To Speech API
+  description: The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting.
   version: '2026-03-01'
   contact:
     name: Cartesia
@@ -15,14 +15,14 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: Text-to-Speech
+- name: Text To Speech
   description: Single-shot and streamed speech generation over plain HTTP.
 paths:
   /tts/bytes:
     post:
       operationId: ttsBytes
       tags:
-      - Text-to-Speech
+      - Text To Speech
       summary: Text-to-Speech (Bytes)
       description: Synthesizes a complete transcript and returns raw audio bytes in a single response.
       parameters:
@@ -49,7 +49,7 @@ paths:
     post:
       operationId: ttsSse
       tags:
-      - Text-to-Speech
+      - Text To Speech
       summary: Text-to-Speech (SSE)
       description: Streams audio chunks with extra metadata (timestamps) from a complete transcript as Server-Sent Events.
       parameters:
@@ -73,6 +73,63 @@ paths:
           $ref: '#/components/responses/ValidationError'
 components:
   schemas:
+    TtsRequest:
+      type: object
+      required:
+      - model_id
+      - transcript
+      - voice
+      - output_format
+      properties:
+        model_id:
+          type: string
+          enum:
+          - sonic-3.5
+          - sonic-3
+          - sonic-latest
+        transcript:
+          type: string
+        voice:
+          $ref: '#/components/schemas/VoiceRef'
+        language:
+          type: string
+          description: One of 40+ supported language codes (en, fr, de, es, ja, zh, ...).
+        output_format:
+          $ref: '#/components/schemas/OutputFormat'
+        pronunciation_dict_id:
+          type:
+          - string
+          - 'null'
+        generation_config:
+          $ref: '#/components/schemas/GenerationConfig'
+    VoiceRef:
+      type: object
+      required:
+      - mode
+      - id
+      properties:
+        mode:
+          type: string
+          enum:
+          - id
+        id:
+          type: string
+          format: uuid
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
     OutputFormat:
       type: object
       required:
@@ -141,62 +198,15 @@ components:
           - skeptical
           - contemplative
           - determined
-    TtsRequest:
-      type: object
-      required:
-      - model_id
-      - transcript
-      - voice
-      - output_format
-      properties:
-        model_id:
-          type: string
-          enum:
-          - sonic-3.5
-          - sonic-3
-          - sonic-latest
-        transcript:
-          type: string
-        voice:
-          $ref: '#/components/schemas/VoiceRef'
-        language:
-          type: string
-          description: One of 40+ supported language codes (en, fr, de, es, ja, zh, ...).
-        output_format:
-          $ref: '#/components/schemas/OutputFormat'
-        pronunciation_dict_id:
-          type: string
-          nullable: true
-        generation_config:
-          $ref: '#/components/schemas/GenerationConfig'
-    Error:
-      type: object
-      properties:
-        title:
-          type: string
-        message:
-          type: string
-        error_code:
-          type: string
-        status_code:
-          type: integer
-        doc_url:
-          type: string
-        request_id:
-          type: string
-    VoiceRef:
-      type: object
-      required:
-      - mode
-      - id
-      properties:
-        mode:
-          type: string
-          enum:
-          - id
-        id:
-          type: string
-          format: uuid
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   responses:
     Unauthorized:
       description: Missing, invalid, or expired API key / access token.
@@ -210,15 +220,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   securitySchemes:
     bearerAuth:
       type: http

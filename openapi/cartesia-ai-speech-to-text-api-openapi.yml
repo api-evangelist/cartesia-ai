@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Cartesia Agents Speech-to-Text API
-  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  title: Cartesia Speech To Text API
+  description: The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting.
   version: '2026-03-01'
   contact:
     name: Cartesia
@@ -15,14 +15,14 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: Speech-to-Text
+- name: Speech To Text
   description: Batch transcription of an audio file of any length.
 paths:
   /stt:
     post:
       operationId: transcribe
       tags:
-      - Speech-to-Text
+      - Speech To Text
       summary: Batch Speech-to-Text
       description: Transcribes an audio file of any length using the ink-whisper model.
       parameters:
@@ -86,20 +86,16 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
-  responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    WordTiming:
+      type: object
+      properties:
+        word:
+          type: string
+        start:
+          type: number
+        end:
+          type: number
     TranscriptResponse:
       type: object
       required:
@@ -122,15 +118,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/WordTiming'
-    WordTiming:
-      type: object
-      properties:
-        word:
-          type: string
-        start:
-          type: number
-        end:
-          type: number
     Error:
       type: object
       properties:
@@ -155,6 +142,19 @@ components:
       schema:
         type: string
         example: '2026-03-01'
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

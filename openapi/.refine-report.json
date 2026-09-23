@@ -1,29 +1,12 @@
 {
   "provider": "cartesia-ai",
   "sources": [
-    "cartesia-ai-agents-api-openapi.yml",
-    "cartesia-ai-api-keys-api-openapi.yml",
-    "cartesia-ai-auth-api-openapi.yml",
-    "cartesia-ai-calls-api-openapi.yml",
-    "cartesia-ai-datasets-api-openapi.yml",
-    "cartesia-ai-deployments-api-openapi.yml",
-    "cartesia-ai-infill-api-openapi.yml",
-    "cartesia-ai-knowledge-base-api-openapi.yml",
-    "cartesia-ai-metrics-api-openapi.yml",
-    "cartesia-ai-phone-numbers-api-openapi.yml",
-    "cartesia-ai-pronunciation-dictionaries-api-openapi.yml",
-    "cartesia-ai-providers-api-openapi.yml",
-    "cartesia-ai-speech-to-text-api-openapi.yml",
-    "cartesia-ai-status-api-openapi.yml",
-    "cartesia-ai-text-to-speech-api-openapi.yml",
-    "cartesia-ai-usage-api-openapi.yml",
-    "cartesia-ai-voice-changer-api-openapi.yml",
-    "cartesia-ai-voices-api-openapi.yml",
-    "cartesia-ai-webhooks-api-openapi.yml"
+    "_original/cartesia-ai-openapi.yml",
+    "cartesia-ai-stt-api-openapi.yml"
   ],
   "outputs": [
-    "cartesia-ai-agents-api-openapi.yml",
     "cartesia-ai-api-keys-api-openapi.yml",
+    "cartesia-ai-agents-api-openapi.yml",
     "cartesia-ai-auth-api-openapi.yml",
     "cartesia-ai-calls-api-openapi.yml",
     "cartesia-ai-datasets-api-openapi.yml",
@@ -40,11 +23,38 @@
     "cartesia-ai-usage-api-openapi.yml",
     "cartesia-ai-voice-changer-api-openapi.yml",
     "cartesia-ai-voices-api-openapi.yml",
-    "cartesia-ai-webhooks-api-openapi.yml"
+    "cartesia-ai-webhooks-api-openapi.yml",
+    "cartesia-ai-stt-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
-  "warnings": [],
-  "notes": [],
-  "skipped": []
+  "warnings": [
+    "cartesia-ai-stt-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /stt/transcribe post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+  ],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cartesia-ai-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "cartesia-ai-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-calls-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-datasets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-deployments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-infill-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-knowledge-base-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-metrics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-phone-numbers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-pronunciation-dictionaries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-providers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-speech-to-text-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-text-to-speech-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-usage-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-voice-changer-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-voices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cartesia-ai-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

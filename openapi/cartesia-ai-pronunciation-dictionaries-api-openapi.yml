@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Cartesia Agents Pronunciation Dictionaries API
-  description: 'The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting. All requests require a `Cartesia-Version` header and an `Authorization: Bearer` API key (`sk_car_...`) or short-lived access token. The lowest-latency, streaming surface for TTS and STT is a separate WebSocket protocol documented in the companion AsyncAPI document at asyncapi/cartesia-ai-asyncapi.yml.'
+  title: Cartesia Pronunciation Dictionaries API
+  description: The Cartesia REST API for real-time voice AI - text-to-speech and voice-changer generation (single-shot bytes or Server-Sent Events), batch speech-to-text transcription, voice management and cloning, audio infill, custom datasets, pronunciation dictionaries, API keys and scoped access tokens, the Voice Agents platform (agents, calls, call batches, phone numbers, telephony providers, webhooks, deployments, knowledge base documents/folders, and evaluation metrics), and usage reporting.
   version: '2026-03-01'
   contact:
     name: Cartesia
@@ -152,14 +152,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   schemas:
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
     PronunciationDictionary:
       type: object
       properties:
@@ -190,6 +192,13 @@ components:
           type: string
         request_id:
           type: string
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
   responses:
     Unauthorized:
       description: Missing, invalid, or expired API key / access token.
@@ -209,15 +218,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   securitySchemes:
     bearerAuth:
       type: http
