@@ -47,6 +47,7 @@ tags:
 - WebSocket
 - Voice Cloning
 - Voice Agents
+- Voice
 tags_raw:
 - AI
 - Voice AI
@@ -56,6 +57,7 @@ tags_raw:
 - WebSocket
 - Voice Cloning
 - Voice Agents
+- Voice
 created: '2026-07-02'
 modified: '2026-08-08'
 specificationVersion: '0.23'
