@@ -239,6 +239,28 @@ paths:
           $ref: '#/components/responses/ValidationError'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
     GetVoicesResponse:
       type: object
       properties:
@@ -284,28 +306,6 @@ components:
           type:
           - string
           - 'null'
-    Error:
-      type: object
-      properties:
-        title:
-          type: string
-        message:
-          type: string
-        error_code:
-          type: string
-        status_code:
-          type: integer
-        doc_url:
-          type: string
-        request_id:
-          type: string
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
   parameters:
     VoiceId:
       name: id
@@ -323,12 +323,6 @@ components:
         type: string
         example: '2026-03-01'
   responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
@@ -337,6 +331,12 @@ components:
             $ref: '#/components/schemas/Error'
     ValidationError:
       description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:

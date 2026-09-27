@@ -227,18 +227,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Metric:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        prompt:
-          type: string
-        created_at:
-          type: string
-          format: date-time
     Error:
       type: object
       properties:
@@ -261,6 +249,37 @@ components:
           type: string
         deleted:
           type: boolean
+    Metric:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        prompt:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     AgentId:
       name: id
@@ -277,25 +296,6 @@ components:
       schema:
         type: string
         example: '2026-03-01'
-  responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -153,21 +153,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Webhook:
-      type: object
-      properties:
-        id:
-          type: string
-        url:
-          type: string
-          format: uri
-        events:
-          type: array
-          items:
-            type: string
-        created_at:
-          type: string
-          format: date-time
     Error:
       type: object
       properties:
@@ -190,6 +175,21 @@ components:
           type: string
         deleted:
           type: boolean
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+          format: uri
+        events:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
   parameters:
     CartesiaVersion:
       name: Cartesia-Version
@@ -200,12 +200,6 @@ components:
         type: string
         example: '2026-03-01'
   responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
@@ -214,6 +208,12 @@ components:
             $ref: '#/components/schemas/Error'
     ValidationError:
       description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:

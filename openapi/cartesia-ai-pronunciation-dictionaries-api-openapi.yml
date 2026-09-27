@@ -152,31 +152,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   schemas:
-    PronunciationDictionary:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        rules:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        created_at:
-          type: string
-          format: date-time
     Error:
       type: object
       properties:
@@ -199,9 +175,24 @@ components:
           type: string
         deleted:
           type: boolean
+    PronunciationDictionary:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        rules:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        created_at:
+          type: string
+          format: date-time
   responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
@@ -212,12 +203,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   securitySchemes:
     bearerAuth:
       type: http

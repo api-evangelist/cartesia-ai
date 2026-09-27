@@ -73,48 +73,6 @@ paths:
           $ref: '#/components/responses/ValidationError'
 components:
   schemas:
-    TtsRequest:
-      type: object
-      required:
-      - model_id
-      - transcript
-      - voice
-      - output_format
-      properties:
-        model_id:
-          type: string
-          enum:
-          - sonic-3.5
-          - sonic-3
-          - sonic-latest
-        transcript:
-          type: string
-        voice:
-          $ref: '#/components/schemas/VoiceRef'
-        language:
-          type: string
-          description: One of 40+ supported language codes (en, fr, de, es, ja, zh, ...).
-        output_format:
-          $ref: '#/components/schemas/OutputFormat'
-        pronunciation_dict_id:
-          type:
-          - string
-          - 'null'
-        generation_config:
-          $ref: '#/components/schemas/GenerationConfig'
-    VoiceRef:
-      type: object
-      required:
-      - mode
-      - id
-      properties:
-        mode:
-          type: string
-          enum:
-          - id
-        id:
-          type: string
-          format: uuid
     Error:
       type: object
       properties:
@@ -130,6 +88,19 @@ components:
           type: string
         request_id:
           type: string
+    VoiceRef:
+      type: object
+      required:
+      - mode
+      - id
+      properties:
+        mode:
+          type: string
+          enum:
+          - id
+        id:
+          type: string
+          format: uuid
     OutputFormat:
       type: object
       required:
@@ -198,6 +169,48 @@ components:
           - skeptical
           - contemplative
           - determined
+    TtsRequest:
+      type: object
+      required:
+      - model_id
+      - transcript
+      - voice
+      - output_format
+      properties:
+        model_id:
+          type: string
+          enum:
+          - sonic-3.5
+          - sonic-3
+          - sonic-latest
+        transcript:
+          type: string
+        voice:
+          $ref: '#/components/schemas/VoiceRef'
+        language:
+          type: string
+          description: One of 40+ supported language codes (en, fr, de, es, ja, zh, ...).
+        output_format:
+          $ref: '#/components/schemas/OutputFormat'
+        pronunciation_dict_id:
+          type:
+          - string
+          - 'null'
+        generation_config:
+          $ref: '#/components/schemas/GenerationConfig'
+  responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     CartesiaVersion:
       name: Cartesia-Version
@@ -207,19 +220,6 @@ components:
       schema:
         type: string
         example: '2026-03-01'
-  responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
