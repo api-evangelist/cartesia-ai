@@ -153,6 +153,13 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
     Error:
       type: object
       properties:
@@ -168,13 +175,6 @@ components:
           type: string
         request_id:
           type: string
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
     Webhook:
       type: object
       properties:
@@ -190,18 +190,9 @@ components:
         created_at:
           type: string
           format: date-time
-  parameters:
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   responses:
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:
@@ -212,12 +203,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   securitySchemes:
     bearerAuth:
       type: http

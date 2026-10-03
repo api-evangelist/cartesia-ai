@@ -238,7 +238,30 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
+  parameters:
+    VoiceId:
+      name: id
+      in: path
+      required: true
+      description: The ID of the voice.
+      schema:
+        type: string
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   schemas:
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
     Error:
       type: object
       properties:
@@ -254,13 +277,6 @@ components:
           type: string
         request_id:
           type: string
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
     GetVoicesResponse:
       type: object
       properties:
@@ -306,23 +322,13 @@ components:
           type:
           - string
           - 'null'
-  parameters:
-    VoiceId:
-      name: id
-      in: path
-      required: true
-      description: The ID of the voice.
-      schema:
-        type: string
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
@@ -331,12 +337,6 @@ components:
             $ref: '#/components/schemas/Error'
     ValidationError:
       description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:

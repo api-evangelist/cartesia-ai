@@ -72,7 +72,50 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    GenerationConfig:
+      type: object
+      properties:
+        volume:
+          type: number
+          minimum: 0.5
+          maximum: 2.0
+          default: 1
+        speed:
+          type: number
+          minimum: 0.6
+          maximum: 1.5
+          default: 1
+        emotion:
+          type: string
+          enum:
+          - neutral
+          - happy
+          - excited
+          - calm
+          - angry
+          - content
+          - sad
+          - scared
+          - proud
+          - confident
+          - distant
+          - skeptical
+          - contemplative
+          - determined
     Error:
       type: object
       properties:
@@ -88,19 +131,35 @@ components:
           type: string
         request_id:
           type: string
-    VoiceRef:
+    TtsRequest:
       type: object
       required:
-      - mode
-      - id
+      - model_id
+      - transcript
+      - voice
+      - output_format
       properties:
-        mode:
+        model_id:
           type: string
           enum:
-          - id
-        id:
+          - sonic-3.5
+          - sonic-3
+          - sonic-latest
+        transcript:
           type: string
-          format: uuid
+        voice:
+          $ref: '#/components/schemas/VoiceRef'
+        language:
+          type: string
+          description: One of 40+ supported language codes (en, fr, de, es, ja, zh, ...).
+        output_format:
+          $ref: '#/components/schemas/OutputFormat'
+        pronunciation_dict_id:
+          type:
+          - string
+          - 'null'
+        generation_config:
+          $ref: '#/components/schemas/GenerationConfig'
     OutputFormat:
       type: object
       required:
@@ -139,78 +198,19 @@ components:
           - 128000
           - 192000
           description: Required for mp3 container.
-    GenerationConfig:
-      type: object
-      properties:
-        volume:
-          type: number
-          minimum: 0.5
-          maximum: 2.0
-          default: 1
-        speed:
-          type: number
-          minimum: 0.6
-          maximum: 1.5
-          default: 1
-        emotion:
-          type: string
-          enum:
-          - neutral
-          - happy
-          - excited
-          - calm
-          - angry
-          - content
-          - sad
-          - scared
-          - proud
-          - confident
-          - distant
-          - skeptical
-          - contemplative
-          - determined
-    TtsRequest:
+    VoiceRef:
       type: object
       required:
-      - model_id
-      - transcript
-      - voice
-      - output_format
+      - mode
+      - id
       properties:
-        model_id:
+        mode:
           type: string
           enum:
-          - sonic-3.5
-          - sonic-3
-          - sonic-latest
-        transcript:
+          - id
+        id:
           type: string
-        voice:
-          $ref: '#/components/schemas/VoiceRef'
-        language:
-          type: string
-          description: One of 40+ supported language codes (en, fr, de, es, ja, zh, ...).
-        output_format:
-          $ref: '#/components/schemas/OutputFormat'
-        pronunciation_dict_id:
-          type:
-          - string
-          - 'null'
-        generation_config:
-          $ref: '#/components/schemas/GenerationConfig'
-  responses:
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          format: uuid
   parameters:
     CartesiaVersion:
       name: Cartesia-Version

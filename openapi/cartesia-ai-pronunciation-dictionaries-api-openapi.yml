@@ -153,6 +153,13 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
     Error:
       type: object
       properties:
@@ -168,13 +175,6 @@ components:
           type: string
         request_id:
           type: string
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
     PronunciationDictionary:
       type: object
       properties:
@@ -191,6 +191,12 @@ components:
           type: string
           format: date-time
   responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     ValidationError:
       description: The request payload failed validation.
       content:
@@ -199,12 +205,6 @@ components:
             $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:

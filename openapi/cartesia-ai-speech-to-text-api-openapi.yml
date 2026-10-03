@@ -87,6 +87,28 @@ paths:
           $ref: '#/components/responses/ValidationError'
 components:
   schemas:
+    TranscriptResponse:
+      type: object
+      required:
+      - type
+      - text
+      properties:
+        type:
+          type: string
+          enum:
+          - transcript
+        request_id:
+          type: string
+        text:
+          type: string
+        language:
+          type: string
+        duration:
+          type: number
+        words:
+          type: array
+          items:
+            $ref: '#/components/schemas/WordTiming'
     Error:
       type: object
       properties:
@@ -111,37 +133,15 @@ components:
           type: number
         end:
           type: number
-    TranscriptResponse:
-      type: object
-      required:
-      - type
-      - text
-      properties:
-        type:
-          type: string
-          enum:
-          - transcript
-        request_id:
-          type: string
-        text:
-          type: string
-        language:
-          type: string
-        duration:
-          type: number
-        words:
-          type: array
-          items:
-            $ref: '#/components/schemas/WordTiming'
   responses:
-    ValidationError:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:

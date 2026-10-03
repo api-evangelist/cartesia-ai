@@ -337,29 +337,23 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    CallId:
+      name: id
+      in: path
+      required: true
+      description: The ID of the call.
+      schema:
+        type: string
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   schemas:
-    Error:
-      type: object
-      properties:
-        title:
-          type: string
-        message:
-          type: string
-        error_code:
-          type: string
-        status_code:
-          type: integer
-        doc_url:
-          type: string
-        request_id:
-          type: string
-    DeleteResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        deleted:
-          type: boolean
     Call:
       type: object
       properties:
@@ -388,6 +382,13 @@ components:
         created_at:
           type: string
           format: date-time
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        deleted:
+          type: boolean
     CallBatch:
       type: object
       properties:
@@ -411,25 +412,24 @@ components:
         created_at:
           type: string
           format: date-time
-  parameters:
-    CallId:
-      name: id
-      in: path
-      required: true
-      description: The ID of the call.
-      schema:
-        type: string
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
   responses:
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:
@@ -440,8 +440,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
