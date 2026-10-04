@@ -171,6 +171,25 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    PhoneNumber:
+      type: object
+      properties:
+        id:
+          type: string
+        number:
+          type: string
+          description: E.164 phone number.
+        provider_id:
+          type:
+          - string
+          - 'null'
+        agent_id:
+          type:
+          - string
+          - 'null'
+        created_at:
+          type: string
+          format: date-time
     DeleteResponse:
       type: object
       properties:
@@ -193,34 +212,15 @@ components:
           type: string
         request_id:
           type: string
-    PhoneNumber:
-      type: object
-      properties:
-        id:
-          type: string
-        number:
-          type: string
-          description: E.164 phone number.
-        provider_id:
-          type:
-          - string
-          - 'null'
-        agent_id:
-          type:
-          - string
-          - 'null'
-        created_at:
-          type: string
-          format: date-time
   responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:

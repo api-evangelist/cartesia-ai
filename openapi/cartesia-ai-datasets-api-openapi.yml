@@ -228,22 +228,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    DatasetId:
-      name: id
-      in: path
-      required: true
-      description: The ID of the dataset.
-      schema:
-        type: string
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   schemas:
     DeleteResponse:
       type: object
@@ -252,6 +236,21 @@ components:
           type: string
         deleted:
           type: boolean
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        error_code:
+          type: string
+        status_code:
+          type: integer
+        doc_url:
+          type: string
+        request_id:
+          type: string
     DatasetFile:
       type: object
       properties:
@@ -278,30 +277,31 @@ components:
         created_at:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        title:
-          type: string
-        message:
-          type: string
-        error_code:
-          type: string
-        status_code:
-          type: integer
-        doc_url:
-          type: string
-        request_id:
-          type: string
+  parameters:
+    DatasetId:
+      name: id
+      in: path
+      required: true
+      description: The ID of the dataset.
+      schema:
+        type: string
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:

@@ -309,20 +309,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Folder:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        parent_folder_id:
-          type:
-          - string
-          - 'null'
-        created_at:
-          type: string
-          format: date-time
     DeleteResponse:
       type: object
       properties:
@@ -361,15 +347,29 @@ components:
         created_at:
           type: string
           format: date-time
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        parent_folder_id:
+          type:
+          - string
+          - 'null'
+        created_at:
+          type: string
+          format: date-time
   responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:

@@ -238,22 +238,6 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 components:
-  parameters:
-    VoiceId:
-      name: id
-      in: path
-      required: true
-      description: The ID of the voice.
-      schema:
-        type: string
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   schemas:
     DeleteResponse:
       type: object
@@ -262,6 +246,19 @@ components:
           type: string
         deleted:
           type: boolean
+    GetVoicesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/VoiceMetadata'
+        has_more:
+          type: boolean
+        next_page:
+          type:
+          - string
+          - 'null'
     Error:
       type: object
       properties:
@@ -277,19 +274,6 @@ components:
           type: string
         request_id:
           type: string
-    GetVoicesResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/VoiceMetadata'
-        has_more:
-          type: boolean
-        next_page:
-          type:
-          - string
-          - 'null'
     VoiceMetadata:
       type: object
       properties:
@@ -323,6 +307,12 @@ components:
           - string
           - 'null'
   responses:
+    ValidationError:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing, invalid, or expired API key / access token.
       content:
@@ -335,12 +325,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
+    VoiceId:
+      name: id
+      in: path
+      required: true
+      description: The ID of the voice.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

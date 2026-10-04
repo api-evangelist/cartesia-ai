@@ -101,6 +101,15 @@ components:
           type: string
         request_id:
           type: string
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   responses:
     Unauthorized:
       description: Missing, invalid, or expired API key / access token.
@@ -114,15 +123,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   securitySchemes:
     bearerAuth:
       type: http

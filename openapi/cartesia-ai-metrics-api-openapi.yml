@@ -234,18 +234,6 @@ components:
           type: string
         deleted:
           type: boolean
-    Metric:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        prompt:
-          type: string
-        created_at:
-          type: string
-          format: date-time
     Error:
       type: object
       properties:
@@ -261,15 +249,27 @@ components:
           type: string
         request_id:
           type: string
+    Metric:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        prompt:
+          type: string
+        created_at:
+          type: string
+          format: date-time
   responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:

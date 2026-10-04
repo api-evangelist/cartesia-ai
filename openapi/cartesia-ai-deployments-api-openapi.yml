@@ -71,18 +71,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Deployment:
-      type: object
-      properties:
-        id:
-          type: string
-        agent_id:
-          type: string
-        status:
-          type: string
-        created_at:
-          type: string
-          format: date-time
     Error:
       type: object
       properties:
@@ -98,6 +86,27 @@ components:
           type: string
         request_id:
           type: string
+    Deployment:
+      type: object
+      properties:
+        id:
+          type: string
+        agent_id:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+  parameters:
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   responses:
     Unauthorized:
       description: Missing, invalid, or expired API key / access token.
@@ -111,15 +120,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   securitySchemes:
     bearerAuth:
       type: http

@@ -156,6 +156,25 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    PhoneNumber:
+      type: object
+      properties:
+        id:
+          type: string
+        number:
+          type: string
+          description: E.164 phone number.
+        provider_id:
+          type:
+          - string
+          - 'null'
+        agent_id:
+          type:
+          - string
+          - 'null'
+        created_at:
+          type: string
+          format: date-time
     DeleteResponse:
       type: object
       properties:
@@ -196,38 +215,6 @@ components:
           type: string
         request_id:
           type: string
-    PhoneNumber:
-      type: object
-      properties:
-        id:
-          type: string
-        number:
-          type: string
-          description: E.164 phone number.
-        provider_id:
-          type:
-          - string
-          - 'null'
-        agent_id:
-          type:
-          - string
-          - 'null'
-        created_at:
-          type: string
-          format: date-time
-  responses:
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     CartesiaVersion:
       name: Cartesia-Version
@@ -244,6 +231,19 @@ components:
       description: The ID of the agent.
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
