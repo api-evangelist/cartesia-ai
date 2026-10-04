@@ -858,6 +858,9 @@ apis:
   - type: OpenAPI
     url: openapi/cartesia-ai-stt-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/cartesia-ai-capability-edges.yml
+  name: Cartesia Business Capability Map
 - type: AgenticAccess
   url: agentic-access/cartesia-ai-agentic-access.yml
 - type: DomainSecurity
