@@ -851,7 +851,7 @@ apis:
   name: Cartesia STT API
   description: The STT API from Cartesia — 1 operation(s) for stt.
   humanURL: https://docs.cartesia.ai/api-reference/tts/websocket
-  baseURL: wss://api.cartesia.ai
+  baseURL: https://api.cartesia.ai
   tags:
   - STT
   properties:
