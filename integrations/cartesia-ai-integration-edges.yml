@@ -2,6 +2,9 @@ generated: '2026-10-13'
 method: searched
 checked:
 - https://aws.amazon.com/marketplace/
+- https://github.com/livekit/agents/tree/main/livekit-plugins
+- https://github.com/pipecat-ai/pipecat/tree/main/src/pipecat/services
+- https://huggingface.co/models?pipeline_tag=text-to-speech
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -19,3 +22,66 @@ edges:
   seller_name: Cartesia
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
+- partner_name: Pipecat
+  partner: pipecat-ai
+  partner_match: framework
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://github.com/pipecat-ai/pipecat/tree/main/src/pipecat/services/cartesia
+  coverage_role:
+  - stt
+  - tts
+  framework_signals:
+    packages:
+    - cartesia
+    roles:
+    - stt
+    - tts
+    vendor_domain: cartesia.ai
+  matched_by: verified-domain-table
+  detected_by: sweep-voice-ai.py
+  first_seen: '2026-10-15'
+- partner_name: LiveKit Agents
+  partner: livekit
+  partner_match: framework
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://github.com/livekit/agents/tree/main/livekit-plugins/livekit-plugins-cartesia
+  coverage_role:
+  - stt
+  - tts
+  framework_signals:
+    packages:
+    - livekit-plugins-cartesia
+    roles:
+    - stt
+    - tts
+    vendor_domain: cartesia.ai
+  matched_by: verified-domain-table
+  detected_by: sweep-voice-ai.py
+  first_seen: '2026-10-15'
+- partner_name: Hugging Face Hub
+  partner: hugging-face
+  partner_match: framework
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://huggingface.co/cartesia
+  coverage_role:
+  - tts
+  framework_signals:
+    packages:
+    - huggingface.co/cartesia
+    roles:
+    - tts
+    vendor_domain: cartesia.ai
+    hub_org_models_in_top_1000: 2
+    hub_org_downloads: 7310
+  matched_by: verified-domain-table
+  detected_by: sweep-voice-ai.py
+  first_seen: '2026-10-15'
