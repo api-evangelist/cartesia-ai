@@ -228,7 +228,37 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    DatasetId:
+      name: id
+      in: path
+      required: true
+      description: The ID of the dataset.
+      schema:
+        type: string
+    CartesiaVersion:
+      name: Cartesia-Version
+      in: header
+      required: true
+      description: API version date, e.g. 2026-03-01.
+      schema:
+        type: string
+        example: '2026-03-01'
   schemas:
+    DatasetFile:
+      type: object
+      properties:
+        id:
+          type: string
+        dataset_id:
+          type: string
+        name:
+          type: string
+        size_bytes:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
     DeleteResponse:
       type: object
       properties:
@@ -251,20 +281,6 @@ components:
           type: string
         request_id:
           type: string
-    DatasetFile:
-      type: object
-      properties:
-        id:
-          type: string
-        dataset_id:
-          type: string
-        name:
-          type: string
-        size_bytes:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
     Dataset:
       type: object
       properties:
@@ -277,23 +293,13 @@ components:
         created_at:
           type: string
           format: date-time
-  parameters:
-    DatasetId:
-      name: id
-      in: path
-      required: true
-      description: The ID of the dataset.
-      schema:
-        type: string
-    CartesiaVersion:
-      name: Cartesia-Version
-      in: header
-      required: true
-      description: API version date, e.g. 2026-03-01.
-      schema:
-        type: string
-        example: '2026-03-01'
   responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     ValidationError:
       description: The request payload failed validation.
       content:
@@ -302,12 +308,6 @@ components:
             $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing, invalid, or expired API key / access token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
       content:
         application/json:
           schema:

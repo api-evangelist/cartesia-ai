@@ -149,6 +149,17 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Provider:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: e.g. twilio, telnyx.
+        created_at:
+          type: string
+          format: date-time
     DeleteResponse:
       type: object
       properties:
@@ -171,26 +182,15 @@ components:
           type: string
         request_id:
           type: string
-    Provider:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          description: e.g. twilio, telnyx.
-        created_at:
-          type: string
-          format: date-time
   responses:
-    ValidationError:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing, invalid, or expired API key / access token.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing, invalid, or expired API key / access token.
+    ValidationError:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
