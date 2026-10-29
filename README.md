@@ -1,4 +1,4 @@
-# Cartesia (cartesia-ai)
+# Cartesia
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,291 +64,194 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cartesia builds real-time voice AI - the Sonic family of text-to-speech models, Ink speech-to-text models, and a Voice Agents platform for building and deploying telephone and web voice agents. The core generation surface is exposed both as REST (bytes and Server-Sent Events) and as a low-latency, bidirectional WebSocket protocol at `wss://api.cartesia.ai` for streaming TTS and STT with multiplexed contexts, word/phoneme timestamps, and mid-stream flush and cancel.
+Cartesia builds real-time voice AI - the Sonic family of text-to-speech models, Ink speech-to-text models, and a Voice Agents platform for building and deploying telephone and web voice agents. The core generation surface is exposed both as REST (bytes and Server-Sent Events) and as a low-latency, bidirectional WebSocket protocol at wss://api.cartesia.ai for streaming TTS and STT with multiplexed contexts, word/phoneme timestamps, and mid-stream flush and cancel.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/cartesia-ai/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/cartesia-ai/refs/heads/main/apis.yml)
+**Areas:** Artificial Intelligence · Voice AI · Text-to-Speech · Speech-to-Text · Real-Time · WebSocket · Voice Cloning · Voice Agents · Voice
 
-## Tags
+## Cartesia on APIs.io
 
-- AI
-- Voice AI
-- Text to Speech
-- Speech to Text
-- Realtime
-- WebSocket
-- Voice Cloning
-- Voice Agents
+Everything profiled for Cartesia is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cartesia-ai/](https://apis.io/providers/cartesia-ai/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (22)
 
-- **Created:** 2026-07-02
-- **Modified:** 2026-07-02
+- [Cartesia TTS WebSocket API](https://apis.io/apis/cartesia-ai/cartesia-ai-tts-websocket-api/) — Bidirectional, multiplexed WebSocket at wss://api.cartesia.ai/tts/websocket for realtime speech generation. Clients send JSON generation requests keyed by a…
+- [Cartesia STT WebSocket API](https://apis.io/apis/cartesia-ai/cartesia-ai-stt-websocket-api/) — Realtime transcription over WebSocket at wss://api.cartesia.ai/stt/websocket. Clients stream raw binary audio in 100ms chunks and issue finalize/close text…
+- [Cartesia Agents API](https://apis.io/apis/cartesia-ai/cartesia-ai-agents-api/) — Voice agent configuration and public templates.
+- [Cartesia API Keys API](https://apis.io/apis/cartesia-ai/cartesia-ai-api-keys-api/) — Standard API key metadata.
+- [Cartesia Auth API](https://apis.io/apis/cartesia-ai/cartesia-ai-auth-api/) — Short-lived, scoped access token generation.
+- [Cartesia Calls API](https://apis.io/apis/cartesia-ai/cartesia-ai-calls-api/) — Outbound call placement, batching, and history.
+- [Cartesia Datasets API](https://apis.io/apis/cartesia-ai/cartesia-ai-datasets-api/) — Audio/text collections used to build custom fine-tunes and voices.
+- [Cartesia Deployments API](https://apis.io/apis/cartesia-ai/cartesia-ai-deployments-api/) — Agent deployment inspection.
+- [Cartesia Infill API](https://apis.io/apis/cartesia-ai/cartesia-ai-infill-api/) — Generate audio that smoothly connects two existing audio segments.
+- [Cartesia Knowledge Base API](https://apis.io/apis/cartesia-ai/cartesia-ai-knowledge-base-api/) — Documents and folders used by agents.
+- [Cartesia Metrics API](https://apis.io/apis/cartesia-ai/cartesia-ai-metrics-api/) — LLM-as-a-judge quality metrics for agents.
+- [Cartesia Phone Numbers API](https://apis.io/apis/cartesia-ai/cartesia-ai-phone-numbers-api/) — Telephony number provisioning and import.
+- [Cartesia Pronunciation Dictionaries API](https://apis.io/apis/cartesia-ai/cartesia-ai-pronunciation-dictionaries-api/) — Custom pronunciation overrides referenced by TTS requests.
+- [Cartesia Providers API](https://apis.io/apis/cartesia-ai/cartesia-ai-providers-api/) — Linked telephony provider accounts.
+- [Cartesia Speech-to-Text API](https://apis.io/apis/cartesia-ai/cartesia-ai-speech-to-text-api/) — Batch transcription of an audio file of any length.
+- [Cartesia Status API](https://apis.io/apis/cartesia-ai/cartesia-ai-status-api/) — API health and version.
+- [Cartesia Text-to-Speech API](https://apis.io/apis/cartesia-ai/cartesia-ai-text-to-speech-api/) — Single-shot and streamed speech generation over plain HTTP.
+- [Cartesia Usage API](https://apis.io/apis/cartesia-ai/cartesia-ai-usage-api/) — Credit and agent usage reporting.
+- [Cartesia Voice Changer API](https://apis.io/apis/cartesia-ai/cartesia-ai-voice-changer-api/) — Transform speech into a different target voice.
+- [Cartesia Voices API](https://apis.io/apis/cartesia-ai/cartesia-ai-voices-api/) — Voice catalog management and voice cloning.
+- [Cartesia Webhooks API](https://apis.io/apis/cartesia-ai/cartesia-ai-webhooks-api/) — Webhook endpoint registration.
+- [Cartesia STT API](https://apis.io/apis/cartesia-ai/cartesia-ai-stt-api/) — The STT API from Cartesia — 1 operation(s) for stt.
 
-## APIs
+### Published properties
 
-### Cartesia Text-to-Speech API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Synthesize speech from text with the Sonic model family (sonic-3.5, sonic-3, sonic-latest) over plain HTTP - a single-shot binary response at `POST /tts/bytes` or a Server-Sent Events stream with per-chunk metadata at `POST /tts/sse`. Supports 40+ languages, raw/wav/mp3 output formats, and generation controls for volume, speed, and emotion.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://docs.cartesia.ai/api-reference/tts/bytes](https://docs.cartesia.ai/api-reference/tts/bytes)
-- **Base URL:** `https://api.cartesia.ai`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Cartesia Realtime WebSocket API (TTS + STT)](https://apis.io/asyncapis/cartesia-ai/cartesia-ai-asyncapi/)
 
-- Text to Speech
-- Sonic
-- Audio
+#### Event channels (2)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://docs.cartesia.ai/build-with-cartesia/tts-models/latest)
-- [API Reference](https://docs.cartesia.ai/api-reference/tts/bytes)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [/stt/websocket](https://apis.io/channels/cartesia-ai/stt-websocket/)
+- [/tts/websocket](https://apis.io/channels/cartesia-ai/tts-websocket/)
 
-### Cartesia TTS WebSocket API
+#### GraphQL (1)
 
-Bidirectional, multiplexed WebSocket at `wss://api.cartesia.ai/tts/websocket` for realtime speech generation. Clients send JSON generation requests keyed by a `context_id` (continuing a context preserves prosody across chunks of transcript) and receive base64-encoded audio chunks, optional word and phoneme timestamps, flush acknowledgements, and a final done message. A single connection scales to dozens of concurrent generation contexts.
+GraphQL schemas.
 
-- **Human URL:** [https://docs.cartesia.ai/api-reference/tts/websocket](https://docs.cartesia.ai/api-reference/tts/websocket)
-- **Base URL:** `wss://api.cartesia.ai`
+- [Moved to /providers/cartesia-ai/](https://apis.io/graphqls/cartesia-ai/cartesia-ai-graphql/)
 
-#### Tags
+#### MCP servers (1)
 
-- WebSocket
-- Text to Speech
-- Realtime
-- Streaming
+Model Context Protocol servers that expose the API to agents.
 
-#### Properties
+- [cartesia-ai](https://apis.io/servers/cartesia-ai/cartesia-ai/)
 
-- [Documentation](https://docs.cartesia.ai/api-reference/tts/websocket)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/cartesia-ai-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+#### Agentic access (1)
 
-### Cartesia Speech-to-Text API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-Batch transcription of an audio file of any length with the ink-whisper model at `POST /stt`. Accepts flac, m4a, mp3, mp4, and mpeg uploads, 99+ languages, and optional word-level timestamp granularity.
+- [Cartesia Ai Agentic Access](https://apis.io/agentic-access/cartesia-ai/cartesia-ai-agentic-access/)
 
-- **Human URL:** [https://docs.cartesia.ai/api-reference/stt/transcribe](https://docs.cartesia.ai/api-reference/stt/transcribe)
-- **Base URL:** `https://api.cartesia.ai`
+#### Collections (23)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- Speech to Text
-- Transcription
-- Ink Whisper
+- [Cartesia API](https://apis.io/collections/cartesia-ai/open-cartesia/)
+- [Cartesia API](https://apis.io/collections/cartesia-ai/open-cartesia-ai/)
+- [Cartesia Agents API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-agents-api/)
+- [Cartesia Agents API Keys API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-api-keys-api/)
+- [Cartesia Agents Auth API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-auth-api/)
+- [Cartesia Agents Calls API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-calls-api/)
+- [Cartesia Agents Datasets API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-datasets-api/)
+- [Cartesia Agents Deployments API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-deployments-api/)
+- [Cartesia Agents Infill API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-infill-api/)
+- [Cartesia Agents Knowledge Base API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-knowledge-base-api/)
+- [Cartesia Agents Metrics API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-metrics-api/)
+- [Cartesia Agents Phone Numbers API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-phone-numbers-api/)
+- [Cartesia Agents Pronunciation Dictionaries API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-pronunciation-dictionaries-api/)
+- [Cartesia Agents Providers API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-providers-api/)
+- [Cartesia Agents Speech-to-Text API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-speech-to-text-api/)
+- [Cartesia Agents Status API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-status-api/)
+- [Cartesia Auth STT API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-stt-api/)
+- [Cartesia Agents Text-to-Speech API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-text-to-speech-api/)
+- [Cartesia Auth TTS API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-tts-api/)
+- [Cartesia Agents Usage API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-usage-api/)
+- [Cartesia Agents Voice Changer API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-voice-changer-api/)
+- [Cartesia Agents Voices API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-voices-api/)
+- [Cartesia Agents Webhooks API](https://apis.io/collections/cartesia-ai/open-cartesia-ai-webhooks-api/)
 
-#### Properties
+#### Governance rules (1)
 
-- [Documentation](https://docs.cartesia.ai/build-with-cartesia/stt/latest)
-- [API Reference](https://docs.cartesia.ai/api-reference/stt/transcribe)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Spectral rulesets for the provider's contracts.
 
-### Cartesia STT WebSocket API
+- [Cartesia — asyncapi rules](https://apis.io/rules/cartesia-ai/cartesia-ai-asyncapi-spectral-rules/)
 
-Realtime transcription over WebSocket at `wss://api.cartesia.ai/stt/websocket`. Clients stream raw binary audio in 100ms chunks and issue finalize/close text commands; the server returns incremental and final transcript messages with word-level timing. A companion "Auto" variant at `/stt/turns/websocket` adds built-in turn detection for conversational agents.
+#### Security (2)
 
-- **Human URL:** [https://docs.cartesia.ai/api-reference/stt/websocket](https://docs.cartesia.ai/api-reference/stt/websocket)
-- **Base URL:** `wss://api.cartesia.ai`
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags
+- [Cartesia Ai Authentication](https://apis.io/security/cartesia-ai/cartesia-ai-authentication/)
+- [Cartesia Ai Domain Security](https://apis.io/security/cartesia-ai/cartesia-ai-domain-security/)
 
-- WebSocket
-- Speech to Text
-- Realtime
-- Turn Detection
+#### Plans and pricing (1)
 
-#### Properties
+Published plans, tiers and prices.
 
-- [Documentation](https://docs.cartesia.ai/api-reference/stt/turns/websocket)
-- [API Reference](https://docs.cartesia.ai/api-reference/stt/websocket)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/cartesia-ai-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+- [Cartesia Ai Plans Pricing](https://apis.io/plans/cartesia-ai/cartesia-ai-plans-pricing/)
 
-### Cartesia Voices API
+#### Rate limits (1)
 
-Manage the voice catalog - list, search, and filter voices by gender, language, and ownership; get, update, and delete a voice; clone a new voice from an uploaded audio clip at `POST /voices/clone`; and localize an existing voice into a new language and dialect at `POST /voices/localize`.
+Published request limits.
 
-- **Human URL:** [https://docs.cartesia.ai/api-reference/voices/list](https://docs.cartesia.ai/api-reference/voices/list)
-- **Base URL:** `https://api.cartesia.ai`
+- [Cartesia Ai Rate Limits](https://apis.io/rate-limits/cartesia-ai/cartesia-ai-rate-limits/)
 
-#### Tags
+#### FinOps (1)
 
-- Voices
-- Voice Cloning
-- Localization
+What the API costs to run, by operation.
 
-#### Properties
+- [Cartesia Ai Finops](https://apis.io/finops/cartesia-ai/cartesia-ai-finops/)
 
-- [API Reference](https://docs.cartesia.ai/api-reference/voices/list)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+## Where to find this API
 
-### Cartesia Voice Changer API
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-Transform an input speech recording into a different target voice - a single-shot binary response at `POST /voice-changer/bytes` or a Server-Sent Events stream at `POST /voice-changer/sse`.
-
-- **Human URL:** [https://docs.cartesia.ai/api-reference/voice-changer/bytes](https://docs.cartesia.ai/api-reference/voice-changer/bytes)
-- **Base URL:** `https://api.cartesia.ai`
-
-#### Tags
-
-- Voice Changer
-- Audio
-- Speech to Speech
-
-#### Properties
-
-- [API Reference](https://docs.cartesia.ai/api-reference/voice-changer/bytes)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Cartesia Infill API
-
-Generate audio that smoothly connects two existing audio segments at `POST /infill/bytes` - supply a left and/or right audio clip plus the transcript to be spoken between them, useful for fixing or extending existing voice recordings without a full re-record.
-
-- **Human URL:** [https://docs.cartesia.ai/api-reference/infill/bytes](https://docs.cartesia.ai/api-reference/infill/bytes)
-- **Base URL:** `https://api.cartesia.ai`
-
-#### Tags
-
-- Infill
-- Audio Editing
-- Sonic
-
-#### Properties
-
-- [API Reference](https://docs.cartesia.ai/api-reference/infill/bytes)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Cartesia Datasets API
-
-Create, list, get, update, and delete datasets, and upload, list, and delete files within a dataset - the audio/text collections used to build custom fine-tunes and voices.
-
-- **Human URL:** [https://docs.cartesia.ai/api-reference/datasets/list](https://docs.cartesia.ai/api-reference/datasets/list)
-- **Base URL:** `https://api.cartesia.ai`
-
-#### Tags
-
-- Datasets
-- Fine-Tuning
-- Files
-
-#### Properties
-
-- [API Reference](https://docs.cartesia.ai/api-reference/datasets/list)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Cartesia Pronunciation Dictionaries API
-
-Create, list, get, update, and delete custom pronunciation dictionaries that can be referenced by `pronunciation_dict_id` on TTS requests to override how specific words or terms are spoken.
-
-- **Human URL:** [https://docs.cartesia.ai/api-reference/pronunciation-dicts/list](https://docs.cartesia.ai/api-reference/pronunciation-dicts/list)
-- **Base URL:** `https://api.cartesia.ai`
-
-#### Tags
-
-- Pronunciation
-- Dictionaries
-- Text to Speech
-
-#### Properties
-
-- [API Reference](https://docs.cartesia.ai/api-reference/pronunciation-dicts/list)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Cartesia API Keys and Auth API
-
-List and get metadata for standard API keys, and mint short-lived (up to 3600s) scoped access tokens at `POST /access-token` with tts/stt/agent grants for safe use in browser and client-side contexts.
-
-- **Human URL:** [https://docs.cartesia.ai/api-reference/api-keys/list](https://docs.cartesia.ai/api-reference/api-keys/list)
-- **Base URL:** `https://api.cartesia.ai`
-
-#### Tags
-
-- API Keys
-- Authentication
-- Access Tokens
-
-#### Properties
-
-- [API Reference](https://docs.cartesia.ai/api-reference/api-keys/list)
-- [Documentation](https://docs.cartesia.ai/api-reference/auth/access-token)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Cartesia Voice Agents API
-
-Build and operate voice agents end to end - manage agents and public templates; place, list, cancel, and batch outbound calls and download call audio and logs; import, provision, and manage telephony phone numbers and provider accounts; register webhooks; inspect deployments; and maintain a knowledge base of documents and folders plus LLM-as-a-judge metrics used to evaluate agent quality.
-
-- **Human URL:** [https://docs.cartesia.ai/api-reference/agents/agents/list](https://docs.cartesia.ai/api-reference/agents/agents/list)
-- **Base URL:** `https://api.cartesia.ai`
-
-#### Tags
-
-- Voice Agents
-- Telephony
-- Calls
-- Knowledge Base
-
-#### Properties
-
-- [API Reference](https://docs.cartesia.ai/api-reference/agents/agents/list)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Cartesia Usage API
-
-Read-only usage endpoints returning credit consumption and agent usage over time, bucketed by the requested interval, for monitoring spend against a plan's included credits.
-
-- **Human URL:** [https://docs.cartesia.ai/api-reference/usage/credits](https://docs.cartesia.ai/api-reference/usage/credits)
-- **Base URL:** `https://api.cartesia.ai`
-
-#### Tags
-
-- Usage
-- Credits
-- Billing
-
-#### Properties
-
-- [API Reference](https://docs.cartesia.ai/api-reference/usage/credits)
-- [API Reference](https://docs.cartesia.ai/api-reference/usage/agents)
-- [OpenAPI](openapi/cartesia-ai-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cartesia-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cartesia-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/cartesia-ai)
-- [LinkedIn](https://www.linkedin.com/company/cartesia-ai)
 - [Website](https://cartesia.ai/)
 - [Documentation](https://docs.cartesia.ai)
-- [Plans](plans/cartesia-ai-plans-pricing.yml)
-- [Rate Limits](rate-limits/cartesia-ai-rate-limits.yml)
-- [Fin Ops](finops/cartesia-ai-finops.yml)
+- [Pricing](https://cartesia.ai/pricing)
+- [Blog](https://cartesia.ai/blog)
+- [Terms of service](https://cartesia.ai/legal/terms-of-service)
+- [Privacy policy](https://cartesia.ai/legal/privacy-policy)
+- [GitHub](https://github.com/cartesia-ai)
 
-## Review
+## API Evangelist rating
 
-Cartesia is one of the few providers in this catalog with a **documented public WebSocket API** - see [review.yml](review.yml). Both the TTS WebSocket (`wss://api.cartesia.ai/tts/websocket`) and the STT WebSocket (`wss://api.cartesia.ai/stt/websocket`, plus a turn-detecting `/stt/turns/websocket` variant) are confirmed, bidirectional protocols with published message schemas, modeled in full in [asyncapi/cartesia-ai-asyncapi.yml](asyncapi/cartesia-ai-asyncapi.yml).
+**Kin Score 37.9** — thin · rubric 0.24.0 · scored 2026-10-17
 
-## Maintainers
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 55.5 |
+| Contract governance | 11.4 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 35.7 |
+| Access clarity | 42.1 |
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Agent readiness 22.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.5** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cartesia-ai/](https://apis.io/providers/cartesia-ai/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Cartesia: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cartesia-ai/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
